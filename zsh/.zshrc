@@ -1,39 +1,35 @@
 [[ $- != *i* ]] && return
-if which tmux 2>&1 > /dev/null; then
-  #test -z "$TMUX" && (tmux attach || tmux new-session)
-  test -z "$TMUX" && (tmux list-sessions)
+if which tmux 2>&1 > /dev/null; then test -z "$TMUX" && (tmux list-sessions)
 fi
 
+source $HOME/.zplug/init.zsh
+
+# Configure my history
+HISTFILE=$HOME/.zhistory
+HISTSIZE=102400
+SAVEHIST=204800
+
+setopt EXTENDED_HISTORY
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
+setopt HIST_VERIFY
+# Configure my history
+
 export LC_COLLATE="en_US.utf8"
-
-source ${HOME}/.antigen/antigen.zsh
-
-antigen use oh-my-zsh
-antigen bundle fasd
-antigen bundle python
-antigen bundle sudo
-antigen bundle ssh-agent
-antigen bundle tmux
-antigen bundle tmux-cssh
-
-antigen bundle mafredri/zsh-async
-antigen bundle sindresorhus/pure
-antigen bundle zsh-users/zsh-completions
-antigen bundle zsh-users/zaw
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen apply
 
 ######================Aliases===================########
 alias popt="opt -load LLVMPolly.so"
 alias pclang="clang -Xclang -load -Xclang LLVMPolly.so"
 alias vmore="vim -u ~/.vimrc.more -"
-#alias vim="nvim"
 alias ta="tmux attach -t"
 alias tn="tmux new-session -t"
 
-zle -N zle-keymap-select
-bindkey '^R' zaw-history
-
+export EDITOR=vim
 ######==========================================########
 undo_path=(${PATH})
 undo_ld_run_path=(${LD_RUN_PATH})
@@ -95,39 +91,54 @@ function linkto() {
 function Xrandr() {
   case "$1" in
     office)
-      xrandr --output LVDS1 --off
-      xrandr --output DP1 --auto
-      xrandr --output DP2 --auto
-      xrandr --output VGA1 --auto
-      #xrandr --output DP1 --rotate left
-      xrandr --output DP2 --right-of DP1
-      xrandr --output VGA1 --right-of DP2
-      xrandr --output DP2 --primary
+      xrandr --output LVDS-1 --off
+      xrandr --output DP-1 --auto
+      xrandr --output DP-2 --auto
+      xrandr --output VGA-1 --auto
+      xrandr --output DP-1 --rotate left
+      xrandr --output DP-2 --right-of DP-1
+      xrandr --output VGA-1 --left-of DP-1
+      xrandr --output DP-2 --primary
       ;;
     beamer)
-      xrandr --output VGA1 --auto \
-             --output LVDS1 --below VGA1
+      xrandr --output VGA-1 --auto \
+             --output LVDS-1 --below VGA-1
+      ;;
+    hdmi)
+      xrandr --output HDMI-1 --auto \
+             --output LVDS-1 --left-of HDMI-1
       ;;
     home)
-      xrandr --output DP1 --auto \
-             --output LVDS1 --off
+      xrandr --output DP-1 --auto \
+             --output LVDS-1 --off
       ;;
     *)
-      xrandr --output DP1 --off \
-             --output DP2 --off \
-             --output VGA1 --off
-      xrandr --output LVDS1 --auto
+      xrandr --output DP-1 --off \
+             --output DP-2 --off \
+             --output VGA-1 --off
+      xrandr --output LVDS-1 --auto
       ;;
   esac
 }
 
 linkto $HOME/.local
 linkto $HOME/opt/dmsw
-linkto $HOME/src/tools/tmuxstart
-linkto $HOME/src/tools/arc/arcanist
-linkto $HOME/src/tools/gitkraken
-linkto $HOME/.gem/ruby/2.2.0/bin
+
+zplug "mafredri/zsh-async", \
+  from:github
+zplug "sindresorhus/pure", \
+  use:pure.zsh, from:github, as:theme
+zplug "zsh-users/zsh-autosuggestions", \
+  use:zsh-autosuggestions.zsh, from:github, defer:3
+zplug "simbuerg/3fa2cf910d40b96a84e36affc361254a", \
+  from:gist, use:bindkeys.zsh
+zplug "zsh-users/zsh-syntax-highlighting", \
+  use:zsh-syntax-highlighting.zsh, from:github
+zplug "/usr/lib/ruby/gems/2.4.0/gems/tmuxinator-0.9.0/completion/", \
+  use:tmuxinator.zsh, from:local
+zplug "/usr/share/fzf/", \
+  use:"*.zsh", from:local
+
+zplug load
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/./ruby/2.2.0/gems/tmuxinator-0.8.1/completion/tmuxinator.zsh ] && \
-  source ~/./ruby/2.2.0/gems/tmuxinator-0.8.1/completion/tmuxinator.zsh
