@@ -4,3 +4,9 @@
 [submodule "zplug"]
 	path = zsh/.zplug
 	url = https://github.com/zplug/zplug.git
+[submodule "awesome"]
+	path = awesome/.config/awesome
+	url = https://github.com/copycat-killer/awesome-copycats
+[submodule "awesome-overlay"]
+	path = awesome-overlay/.config/awesome/tyrannical
+	url = https://github.com/Elv13/tyrannical.git
