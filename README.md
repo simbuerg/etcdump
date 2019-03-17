@@ -1,6 +1,10 @@
 # Install
 
 Requires: ``stow``.
+Don't forget to initialize all submodules included in this repsitory:
+```bash
+git submdule update --init
+```
 
 ## Usage
 
