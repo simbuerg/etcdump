@@ -1,36 +1,20 @@
 [[ $- != *i* ]] && return
-if which tmux 2>&1 > /dev/null; then test -z "$TMUX" && (tmux list-sessions)
-fi
+[[ "${TERM}" = "xterm-kitty" ]] && alias d="kitty +kitten diff"
 
-source $HOME/.zplug/init.zsh
+source ~/.zplug/init.zsh
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+zplug "simbuerg/3fa2cf910d40b96a84e36affc361254a", from:gist, use:bindkeys.zsh
+zplug "mafredri/zsh-async"
+zplug "sindresorhus/pure", use:pure.zsh, as:theme
+zplug "zsh-users/zsh-autosuggestions", use:zsh-autosuggestions.zsh, defer:3
+zplug "zsh-users/zsh-syntax-highlighting", use:zsh-syntax-highlighting.zsh
+zplug "willghatch/zsh-saneopt", use:saneopt.plugin.zsh
+zplug "/usr/lib/ruby/gems/2.6.0/gems/tmuxinator-0.15.0/completion/", use:tmuxinator.zsh, from:local
+zplug "/usr/share/fzf/", use:"*.zsh", from:local
+zplug "/usr/bin", use:virtualenvwrapper.sh, from:local
+zplug load
+bindkey -e
 
-# Configure my history
-HISTFILE=$HOME/.zhistory
-HISTSIZE=102400
-SAVEHIST=204800
-
-setopt EXTENDED_HISTORY
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
-setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_IGNORE_DUPS
-setopt HIST_FIND_NO_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_REDUCE_BLANKS
-setopt HIST_VERIFY
-# Configure my history
-
-export LC_COLLATE="en_US.utf8"
-
-######================Aliases===================########
-alias popt="opt -load LLVMPolly.so"
-alias pclang="clang -Xclang -load -Xclang LLVMPolly.so"
-alias vmore="vim -u ~/.vimrc.more -"
-alias ta="tmux attach -t"
-alias tn="tmux new-session -t"
-
-export EDITOR=vim
-######==========================================########
 undo_path=(${PATH})
 undo_ld_run_path=(${LD_RUN_PATH})
 undo_ld_library_path=(${LD_LIBRARY_PATH})
@@ -91,54 +75,24 @@ function linkto() {
 function Xrandr() {
   case "$1" in
     office)
-      xrandr --output LVDS-1 --off
-      xrandr --output DP-1 --auto
-      xrandr --output DP-2 --auto
-      xrandr --output VGA-1 --auto
-      xrandr --output DP-1 --rotate left
-      xrandr --output DP-2 --right-of DP-1
-      xrandr --output VGA-1 --left-of DP-1
-      xrandr --output DP-2 --primary
+      sh ~/.screenlayout/office.sh
       ;;
     beamer)
-      xrandr --output VGA-1 --auto \
-             --output LVDS-1 --below VGA-1
-      ;;
-    hdmi)
-      xrandr --output HDMI-1 --auto \
-             --output LVDS-1 --left-of HDMI-1
+      sh ~/.screenlayout/beamer_mirror_1024.sh
       ;;
     home)
       xrandr --output DP-1 --auto \
              --output LVDS-1 --off
       ;;
     *)
-      xrandr --output DP-1 --off \
-             --output DP-2 --off \
-             --output VGA-1 --off
-      xrandr --output LVDS-1 --auto
+      sh ~/.screenlayout/laptop-only.sh
       ;;
   esac
 }
 
 linkto $HOME/.local
 linkto $HOME/opt/dmsw
-
-zplug "mafredri/zsh-async", \
-  from:github
-zplug "sindresorhus/pure", \
-  use:pure.zsh, from:github, as:theme
-zplug "zsh-users/zsh-autosuggestions", \
-  use:zsh-autosuggestions.zsh, from:github, defer:3
-zplug "simbuerg/3fa2cf910d40b96a84e36affc361254a", \
-  from:gist, use:bindkeys.zsh
-zplug "zsh-users/zsh-syntax-highlighting", \
-  use:zsh-syntax-highlighting.zsh, from:github
-zplug "/usr/lib/ruby/gems/2.4.0/gems/tmuxinator-0.9.0/completion/", \
-  use:tmuxinator.zsh, from:local
-zplug "/usr/share/fzf/", \
-  use:"*.zsh", from:local
-
-zplug load
+linkto $HOME/.gem/ruby/2.5.0
+linkto $HOME/.node_modules/
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
