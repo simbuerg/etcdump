@@ -3,25 +3,25 @@ call plug#begin('~/.vim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
-Plug 'Valloric/YouCompleteMe', { 'for' : ['c', 'cpp', 'python'], 'do' : './install.sh --clang-completer --system-libclang' }
+
+Plug 'Valloric/YouCompleteMe', { 'for' : ['c', 'cpp', 'python'], 'do' : './install.py --clangd-completer' }
 autocmd! User YouCompleteMe call youcompleteme#Enable()
 
 Plug 'mrtazz/DoxygenToolkit.vim', {'for':['c', 'cpp']}
 Plug 'godlygeek/tabular'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-Plug 'tweekmonster/braceless.vim', { 'for' : ['python'] }
+" Plug 'tweekmonster/braceless.vim', { 'for' : ['python'] }
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-surround'
-Plug 'vim-scripts/Lucius'
 Plug 'crusoexia/vim-monokai'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'terryma/vim-multiple-cursors'
 Plug 'w0rp/ale'
-Plug 'gilligan/vim-lldb'
 Plug 'ryanoasis/vim-devicons'
+" Plug 'heavenshell/vim-pydocstring'
 
 call plug#end()
 
@@ -122,13 +122,18 @@ set completeopt=menuone,menu,longest,preview
 
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline#extensions#ale#enabled = 1
-let g:airline_theme = 'dark'
+let g:airline_theme = 'lucius'
 
 " ALE
 let g:ale_sign_error = ''
 let g:ale_sign_warning = ''
-let g:ale_open_list = 1
+let g:ale_open_list = 0
+let g:ale_linters = {
+\   'cpp': ['clangtidy'],
+\   'python': ['pylint', 'bandit']
+\}
 
 " YouCompleteMe
 let g:ycm_always_populate_location_list = 1
@@ -150,6 +155,7 @@ let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
 let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsJumpForwardTrigger="<Tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
+let g:ultisnips_python_style="google"
 let g:snips_author="Andreas Simbürger <simbuerg@lairosiel.de>"
 let g:EclimCompletionMethod='omnifunc'
 
@@ -197,7 +203,7 @@ function! s:fzf_statusline()
 endfunction
 
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
-autocmd FileType python BracelessEnable +indent +highlight-cc2
+" autocmd FileType python BracelessEnable +indent +highlight-cc2
 
 nnoremap <s-c> :Ag<space>
 
@@ -205,3 +211,5 @@ nnoremap <silent> <UP>            :bprev<CR>
 nnoremap <silent> <DOWN>          :bnext<CR>
 nnoremap <silent> <LEFT>          :cprev<CR>
 nnoremap <silent> <RIGHT>         :cnext<CR>
+
+tnoremap <Esc> <C-\><C-n>
