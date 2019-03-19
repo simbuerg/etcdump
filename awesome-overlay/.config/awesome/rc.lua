@@ -16,7 +16,6 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
                       require("awful.hotkeys_popup.keys")
 local posix         = require("posix")
 local my_table      = awful.util.table -- or gears.table -- 4.{0,1} compatibility
-local termgrp       = require('termgrp')
 -- }}}
 
 -- {{{ Error handling
@@ -104,9 +103,6 @@ local known_layouts = {
   "beamer_mirror_1024.sh",
 }
 
-termgrp.terminal = terminal
-termgrp.dmenu = "dmenu"
-
 awful.util.terminal = terminal
 awful.util.tagnames = { }
 awful.layout.layouts = {
@@ -145,12 +141,12 @@ tyrannical.tags = {
                   screen = screen.count() > 1 and 2 or 1,
                   layout = awful.layout.suit.max,
                   --exec_once = {"vivaldi-stable"},
-                  class = {"vivaldi-stable", "qutebrowser"}
+                  class = {"vivaldi-stable"}
   },
   { name = "code", init = true, exclusive = true,
                   screen = screen.count() > 1 and 2 or 1,
                   layout = awful.layout.suit.max,
-                  class = {"code", "vscodium"}
+                  class = {"code"}
   },
   { name = "mail", init = true, exclusive = true,
                    screen = screen.count() > 1 and 2 or 1,
@@ -325,24 +321,6 @@ globalkeys = my_table.join(
             beautiful.volume.update()
         end,
         {description = "volume down", group = "hotkeys"}),
-
-    -- Create a new termgrp
-    -- Like tmux new-session
-    awful.key({ modkey,           }, "=", function() termgrp.action.create("-p \"create termgroup (don't use following names): \"") end),
-
-    -- Detach a termgrp
-    -- Like tmux detach-client
-    awful.key({ modkey, "Shift"   }, "=", function() termgrp.action.detach("-p \"detach termgroup: \"") end),
-
-    -- Attach a termgrp
-    -- Like tmux attach-session
-    awful.key({ modkey, "Ctrl"    }, "=", function() termgrp.action.attach("-p \"attach termgroup: \"") end),
-
-    -- If user focuses on a window of a termgrp, launch a terminal in the same termgrp.
-    -- Otherwise, launch a normal terminal.
-    -- Like tmux new-window
-    awful.key({ modkey, "Shift" }, "Return", function() termgrp.action.spawn() end,
-        {description = "open a terminal", group = "launcher"}),
 
     -- Hotkeys
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
@@ -594,10 +572,7 @@ clientkeys = my_table.join(
             c:raise()
         end,
         {description = "toggle fullscreen", group = "client"}),
-    -- awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
-    --           {description = "close", group = "client"}),
-    -- Like tmux kill-window
-    awful.key({ modkey, "Shift"   }, "c",      function (c) termgrp.action.kill(c)           end,
+    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
               {description = "close", group = "client"}),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
               {description = "toggle floating", group = "client"}),
