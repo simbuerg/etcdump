@@ -10,6 +10,8 @@ autocmd! User YouCompleteMe call youcompleteme#Enable()
 Plug 'mrtazz/DoxygenToolkit.vim', {'for':['c', 'cpp']}
 Plug 'godlygeek/tabular'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
+
 " Plug 'tweekmonster/braceless.vim', { 'for' : ['python'] }
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-dispatch'
