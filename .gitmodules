@@ -8,5 +8,5 @@
 	path = awesome/.config/awesome
 	url = https://github.com/copycat-killer/awesome-copycats
 [submodule "awesome-overlay"]
-	path = awesome-overlay/.config/awesome/tyrannical
-	url = https://github.com/Elv13/tyrannical.git
+	path = awesome-overlay/.config/awesome/termgrp
+	url = https://github.com/wheatdog/awesome-termgrp
