@@ -69,10 +69,10 @@
     "workbench.settings.enableNaturalLanguageSearch": false,
     "workbench.settings.useSplitJSON": true,
     "terminal.explorerKind": "external",
-    "vim.easymotion": false,
     "vim.foldfix": true,
     "vim.statusBarColorControl": true,
     "editor.renderFinalNewline": true,
     "editor.fontSize": 16,
-    "breadcrumbs.enabled": true
+    "revealjs.browserPath": "/usr/bin/vivaldi-stable",
+    "workbench.editor.revealIfOpen": true
 }
