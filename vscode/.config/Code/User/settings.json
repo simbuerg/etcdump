@@ -1,6 +1,6 @@
 {
     "editor.minimap.enabled": false,
-    "window.zoomLevel": 0,
+    "window.zoomLevel": 1,
     "extensions.ignoreRecommendations": false,
     "vim.useSystemClipboard": true,
     "vim.hlsearch": true,
@@ -49,12 +49,13 @@
         "editorWidget.border": "#FF7042",
         "settings.modifiedItemForeground": "#FF7042",
         "panelTitle.activeBorder": "#FF7042",
-        "statusBar.noFolderBackground": "#5f0000",
-        "statusBar.debuggingBackground": "#5f0000",
-        "statusBar.background": "#5f0000"
+        "tab.unfocusedActiveBorder": "#fff0",
+        "statusBar.noFolderBackground": "#005f5f",
+        "statusBar.debuggingBackground": "#005f5f",
+        "statusBar.background": "#005f5f"
     },
     "python.pythonPath": "/usr/bin/python3",
-    "workbench.activityBar.visible": true,
+    "workbench.activityBar.visible": false,
     "latex-workshop.latex.autoBuild.run": "never",
     "python.jediEnabled": false,
     "editor.fontFamily": "'Monofur Nerd Font', Consolas, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
@@ -72,5 +73,6 @@
     "vim.foldfix": true,
     "vim.statusBarColorControl": true,
     "editor.renderFinalNewline": true,
-    "editor.fontSize": 16
+    "editor.fontSize": 16,
+    "breadcrumbs.enabled": true
 }

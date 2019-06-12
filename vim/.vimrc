@@ -9,7 +9,7 @@ autocmd! User YouCompleteMe call youcompleteme#Enable()
 
 Plug 'mrtazz/DoxygenToolkit.vim', {'for':['c', 'cpp']}
 Plug 'godlygeek/tabular'
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
 
 " Plug 'tweekmonster/braceless.vim', { 'for' : ['python'] }
@@ -39,6 +39,13 @@ endif
 
 
 colorscheme monokai
+
+" enable indentation
+set breakindent
+" ident by an additional 2 characters on wrapped lines, when line >= 40 characters, put 'showbreak' at start of line
+set breakindentopt=shift:2,min:40,sbr
+" append '>>' to indent
+set showbreak=>>   
 
 set spelllang=en
 set nospell
