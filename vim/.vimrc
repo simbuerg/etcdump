@@ -4,7 +4,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
 
-Plug 'Valloric/YouCompleteMe', { 'for' : ['c', 'cpp', 'python'], 'do' : './install.py --clangd-completer' }
+Plug 'Valloric/YouCompleteMe', { 'for' : ['go', 'c', 'cpp', 'python'], 'do' : './install.py --go-completer --clangd-completer' }
 autocmd! User YouCompleteMe call youcompleteme#Enable()
 
 Plug 'mrtazz/DoxygenToolkit.vim', {'for':['c', 'cpp']}
