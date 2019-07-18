@@ -5,6 +5,7 @@ local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, 
 local gears         = require("gears")
 local awful         = require("awful")
                       require("awful.autofocus")
+                      require("awful.remote")
 local wibox         = require("wibox")
 local beautiful     = require("beautiful")
 local naughty       = require("naughty")
@@ -15,6 +16,7 @@ local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
                       require("awful.hotkeys_popup.keys")
 local posix         = require("posix")
+                      require("screenful.screenful")
 local my_table      = awful.util.table -- or gears.table -- 4.{0,1} compatibility
 -- }}}
 
