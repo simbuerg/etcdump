@@ -109,53 +109,51 @@ awful.layout.layouts = {
     awful.layout.suit.tile,
     awful.layout.suit.floating,
     awful.layout.suit.max,
-    --lain.layout.centerwork,
-    --lain.layout.termfair,
-    --awful.layout.suit.fair,
-    --awful.layout.suit.fair.horizontal,
-    --awful.layout.suit.spiral,
-    --awful.layout.suit.spiral.dwindle,
-    --awful.layout.suit.max.fullscreen,
-    --awful.layout.suit.magnifier,
-    --awful.layout.suit.corner.nw,
-    --awful.layout.suit.corner.ne,
-    --awful.layout.suit.corner.sw,
-    --awful.layout.suit.corner.se,
-    --lain.layout.cascade,
-    --lain.layout.cascade.tile,
-    --lain.layout.termfair.center,
+    lain.layout.centerwork,
+    lain.layout.termfair,
+    awful.layout.suit.fair,
+    awful.layout.suit.fair.horizontal,
+    awful.layout.suit.spiral,
+    awful.layout.suit.spiral.dwindle,
+    awful.layout.suit.max.fullscreen,
+    awful.layout.suit.magnifier,
+    awful.layout.suit.corner.nw,
+    awful.layout.suit.corner.ne,
+    awful.layout.suit.corner.sw,
+    awful.layout.suit.corner.se,
+    lain.layout.cascade,
+    lain.layout.cascade.tile,
+    lain.layout.termfair.center,
 }
 
 tyrannical.settings.default_layout = awful.layout.suit.tile
-tyrannical.settings.block_children_focus_stealing = true
+tyrannical.settings.block_children_focus_stealing = false
 tyrannical.settings.group_children = true
 
 tyrannical.tags = {
-  { name = "term", init = true, exclusive = true,
+  { name = "term", init = true, exclusive = false,
                    screen = screen.count() > 1 and 2 or 1,
                    layout = awful.layout.suit.tile,
-                   instance = {"dev", "ops"},
                    class = {"kitty"}
   },
-  { name = "www", init = true, exclusive = true,
+  { name = "www", init = true, exclusive = false,
                   screen = screen.count() > 1 and 2 or 1,
-                  layout = awful.layout.suit.max,
-                  --exec_once = {"vivaldi-stable"},
-                  class = {"vivaldi-stable"}
+                  layout = awful.layout.suit.tile,
+                  class = {"vivaldi-stable", "firefox"}
   },
-  { name = "code", init = true, exclusive = true,
+  { name = "code", init = true, exclusive = false,
                   screen = screen.count() > 1 and 2 or 1,
-                  layout = awful.layout.suit.max,
+                  layout = awful.layout.suit.tile,
                   class = {"code"}
   },
-  { name = "mail", init = true, exclusive = true,
+  { name = "mail", init = true, exclusive = false,
                    screen = screen.count() > 1 and 2 or 1,
-                   layout = awful.layout.suit.max,
-                   class = {"thunderbird"}
+                   layout = awful.layout.suit.tile,
+                   class = {"thunderbird", "evolution" }
   },
-  { name = "file", init = true, exclusive = true,
+  { name = "file", init = true, exclusive = false,
                    screen = screen.count() > 1 and 2 or 1,
-                   layout = awful.layout.suit.max,
+                   layout = awful.layout.suit.tile,
                    class = {"io.elementary.files"}
   },
 }
