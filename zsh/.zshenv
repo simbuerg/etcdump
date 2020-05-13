@@ -5,6 +5,8 @@ export GREN_GITHUB_TOKEN=d306fa9d7304ad0094eade0128998e1728dddafb
 export PROMPT_GEOMETRY_EXEC_TIME=true
 export QT_QPA_PLATFORMTHEME=qt5ct
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+export GOPATH=$HOME/git/go
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
 # Configure my history
 HISTFILE=$HOME/.zhistory
