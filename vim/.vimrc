@@ -16,12 +16,13 @@ Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-surround'
-Plug 'crusoexia/vim-monokai'
+" Plug 'crusoexia/vim-monokai'
+Plug 'reedes/vim-colors-pencil'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 " Plug 'terryma/vim-multiple-cursors'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'ryanoasis/vim-devicons'
 " Plug 'heavenshell/vim-pydocstring'
 
@@ -36,9 +37,17 @@ if !has("gui_running")
     au InsertLeave * set timeoutlen=500
   augroup END
 endif
+if exists('+termguicolors')
+  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
 
-
-colorscheme monokai
+colorscheme pencil
+let g:pencil_terminal_italics = 1
+let g:pencil_gutter_color = 1
+let g:airline_theme = 'pencil'
+set background=dark
 
 " enable indentation
 set breakindent
@@ -133,11 +142,11 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline#extensions#ale#enabled = 1
-let g:airline_theme = 'lucius'
+" let g:airline_theme = 'lucius'
 
 " ALE
-let g:ale_sign_error = ''
-let g:ale_sign_warning = ''
+let g:ale_sign_error = 'E'
+let g:ale_sign_warning = 'W'
 let g:ale_open_list = 0
 let g:ale_linters = {
 \   'cpp': ['clangtidy'],
@@ -154,8 +163,8 @@ let g:ycm_enable_diagnostic_signs = 1
 let g:ycm_open_loclist_on_ycm_diags = 1
 let g:ycm_server_use_vim_stdout=0
 let g:ycm_show_diagnostics_ui = 1
-let g:ycm_error_symbol = ''
-let g:ycm_warning_symbol = ''
+let g:ycm_error_symbol = '~'
+let g:ycm_warning_symbol = '!'
 set wildignore+=build,build-debug,*.a,*.so,*.o,*.obj,.git
 
 let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
@@ -175,6 +184,7 @@ nnoremap <Leader>l :Buffers<CR>
 " Doxygen comments
 nnoremap <Leader>c :Dox<CR>
 nnoremap <Leader>x :DoxBlock<CR>
+
 " YCM: Jump to definition/declaration
 nnoremap <leader>jd :YcmCompleter GoToImprecise<CR>
 nnoremap <leader>jj :YcmCompleter GoTo<CR>
