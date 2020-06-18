@@ -57,7 +57,7 @@ local function run_once(cmd_arr)
 end
 
 -- run_once({ "unclutter -root" })
-run_once({ "nm-applet --sm-disable &" })
+-- run_once({ "nm-applet --sm-disable &" })
 run_once({ "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &" })
 -- }}}
 
@@ -90,42 +90,28 @@ local themes = {
     "vertex",          -- 10
 }
 
-local chosen_theme = themes[7]
+local chosen_theme = themes[4]
 local modkey       = "Mod4"
 local altkey       = "Mod1"
-local terminal     = "kitty"
+local terminal     = "alacritty"
 local editor       = os.getenv("EDITOR") or "vim"
 local gui_editor   = "code"
-local browser      = "vivaldi-stable"
+local browser      = "firefox"
 local screen_layouts = os.getenv("HOME") .. "/.screenlayout/"
 local scrlocker    = "i3lock"
 local known_layouts = {
-  "laptop-only.sh",
-  "office.sh",
-  "beamer_mirror_1024.sh",
+  "office-2b.sh"
 }
 
 awful.util.terminal = terminal
 awful.util.tagnames = { }
 awful.layout.layouts = {
-    awful.layout.suit.tile,
+    awful.layout.suit.tile.left,
+    awful.layout.suit.tile.bottom,
     awful.layout.suit.floating,
     awful.layout.suit.max,
-    lain.layout.centerwork,
-    lain.layout.termfair,
     awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier,
-    awful.layout.suit.corner.nw,
-    awful.layout.suit.corner.ne,
-    awful.layout.suit.corner.sw,
-    awful.layout.suit.corner.se,
-    lain.layout.cascade,
-    lain.layout.cascade.tile,
-    lain.layout.termfair.center,
+    awful.layout.suit.magnifier
 }
 
 tyrannical.settings.default_layout = awful.layout.suit.tile
@@ -133,41 +119,50 @@ tyrannical.settings.block_children_focus_stealing = false
 tyrannical.settings.group_children = true
 
 tyrannical.tags = {
-  { name = "term", init = true, exclusive = false,
+  { name = "1", init = true, volatile = false, exclusive = false,
+                   screen = screen.count() > 1 and 2 or 1,
+                   layout = awful.layout.suit.tile
+  },
+  { name = "term", init = true, volatile = true, exclusive = false,
                    screen = screen.count() > 1 and 2 or 1,
                    layout = awful.layout.suit.tile,
-                   class = {"kitty"}
+                   class = {"kitty", "alacritty"}
   },
-  { name = "www", init = true, exclusive = false,
+  { name = "www", init = true, volatile = true, exclusive = false,
                   screen = screen.count() > 1 and 2 or 1,
                   layout = awful.layout.suit.tile,
                   class = {"vivaldi-stable", "firefox"}
   },
-  { name = "code", init = true, exclusive = false,
+  { name = "code", init = true, volatile = true, exclusive = false,
                   screen = screen.count() > 1 and 2 or 1,
                   layout = awful.layout.suit.tile,
                   class = {"code"}
   },
-  { name = "mail", init = true, exclusive = false,
+  { name = "mail", init = true, volatile = true, exclusive = false,
                    screen = screen.count() > 1 and 2 or 1,
                    layout = awful.layout.suit.tile,
                    class = {"thunderbird", "evolution" }
   },
-  { name = "file", init = true, exclusive = false,
+  { name = "file", init = true, volatile = true, exclusive = false,
                    screen = screen.count() > 1 and 2 or 1,
                    layout = awful.layout.suit.tile,
-                   class = {"io.elementary.files"}
+                   class = {"io.elementary.files", "Org.gnome.Nautilus"}
   },
+  { name = "vms", init = true, volatile = true, exclusive = false,
+                   screen = screen.count() > 1 and 2 or 1,
+                   layout = awful.layout.suit.tile,
+                   class = {"Virt-manager"}
+  },
+  { name = "vms", init = true, volatile = true, exclusive = false,
+                   screen = screen.count() > 1 and 2 or 1,
+                   layout = awful.layout.suit.tile,
+                   class = {"org.remmina.Remmina"}
+  }
 }
 
--- Let these clients ignore the exclusive property.
-tyrannical.properties.intrusive = {
-  "pinentry"
-}
-
-tyrannical.properties.floating = {
-  "pinentry"
-}
+---- Let these clients ignore the exclusive property.
+tyrannical.properties.intrusive = { "pinentry" }
+tyrannical.properties.floating = { "pinentry" }
 
 awful.util.taglist_buttons = my_table.join(
     awful.button({ }, 1, function(t) t:view_only() end),
@@ -380,7 +375,7 @@ globalkeys = my_table.join(
         {description = "focus right", group = "client"}),
 
 
-    awful.key({ modkey, "Shift"  }, "l",
+    awful.key({ modkey, "Shift"  }, "Escape",
         function()
             awful.spawn.with_shell("betterlockscreen -l -b")
         end),
@@ -524,11 +519,6 @@ globalkeys = my_table.join(
     awful.key({ modkey }, "a", function () awful.spawn(guieditor) end,
               {description = "run gui editor", group = "launcher"}),
 
-    -- Default
-    --[[ Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"})
-    --]]
     --[[ dmenu
     awful.key({ modkey }, "x", function ()
             os.execute(string.format("dmenu_run -i -fn 'Monospace' -nb '%s' -nf '%s' -sb '%s' -sf '%s'",
@@ -553,12 +543,12 @@ globalkeys = my_table.join(
               {description = "run prompt", group = "launcher"}),
     awful.key({ modkey }, "r",
               function ()
-                os.execute("rofi -modi run,drun -show run -theme Arc-Dark") 
+                os.execute("rofi -modi run,drun -show run -theme sidebar") 
               end,
               {description = "run prompt", group = "launcher"}),
     awful.key({ modkey }, "x",
               function ()
-                os.execute("rofi -modi run,drun -show drun -theme Arc-Dark") 
+                os.execute("rofi -modi run,drun -show drun -theme sidebar") 
               end,
               {description = "run prompt", group = "launcher"})
 )
@@ -688,7 +678,8 @@ awful.rules.rules = {
                      maximized_vertical = false,
                      maximized_horizontal = false,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen,
-                     size_hints_honor = false
+                     size_hints_honor = false,
+                     titlebars_enabled = true
      }
     },
 
@@ -696,7 +687,7 @@ awful.rules.rules = {
     { rule_any = { type = { "dialog" } },
       properties = { titlebars_enabled = true } },
     { rule_any = { type = { "normal" } },
-      properties = { titlebars_enabled = false } },
+      properties = { titlebars_enabled = true } },
 }
 -- }}}
 
@@ -765,7 +756,7 @@ end)
 
 -- Enable sloppy focus, so that focus follows mouse.
 -- client.connect_signal("mouse::enter", function(c)
---     c:emit_signal("request::activate", "mouse_enter", {raise = true})
+--      c:emit_signal("request::activate", "mouse_enter", {raise = true})
 -- end)
 
 -- No border for maximized clients
