@@ -9,15 +9,19 @@ autocmd! User YouCompleteMe call youcompleteme#Enable()
 
 Plug 'mrtazz/DoxygenToolkit.vim', {'for':['c', 'cpp']}
 Plug 'godlygeek/tabular'
-" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
+
+Plug 'vimwiki/vimwiki'
+Plug 'tbabej/taskwiki'
+Plug 'powerman/vim-plugin-AnsiEsc'
+Plug 'farseer90718/vim-taskwarrior'
 
 " Plug 'tweekmonster/braceless.vim', { 'for' : ['python'] }
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-surround'
 " Plug 'crusoexia/vim-monokai'
-Plug 'reedes/vim-colors-pencil'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
@@ -25,6 +29,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'dense-analysis/ale'
 Plug 'ryanoasis/vim-devicons'
 " Plug 'heavenshell/vim-pydocstring'
+" Plug 'rafi/awesome-vim-colorschemes'
+Plug 'reedes/vim-colors-pencil'
 
 call plug#end()
 
@@ -37,24 +43,10 @@ if !has("gui_running")
     au InsertLeave * set timeoutlen=500
   augroup END
 endif
-if exists('+termguicolors')
-  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-  set termguicolors
-endif
 
 colorscheme pencil
-let g:pencil_terminal_italics = 1
-let g:pencil_gutter_color = 1
-let g:airline_theme = 'pencil'
+let g:pencil_gutter_color=1
 set background=dark
-
-" enable indentation
-set breakindent
-" ident by an additional 2 characters on wrapped lines, when line >= 40 characters, put 'showbreak' at start of line
-set breakindentopt=shift:2,min:40,sbr
-" append '>>' to indent
-set showbreak=>>   
 
 set spelllang=en
 set nospell
@@ -142,7 +134,7 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline#extensions#ale#enabled = 1
-" let g:airline_theme = 'lucius'
+let g:airline_theme = 'pencil'
 
 " ALE
 let g:ale_sign_error = 'E'

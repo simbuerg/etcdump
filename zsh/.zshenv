@@ -1,5 +1,5 @@
 export EDITOR=vim
-export FZF_COMPLETION_OPTS="--preview 'more 100 {}'"
+#export FZF_COMPLETION_OPTS="--preview 'more 100 {}'"
 export GPG_TTY="$(tty)"
 export GREN_GITHUB_TOKEN=d306fa9d7304ad0094eade0128998e1728dddafb
 export PROMPT_GEOMETRY_EXEC_TIME=true
@@ -31,3 +31,5 @@ alias pclang="clang -Xclang -load -Xclang LLVMPolly.so"
 alias vmore="vim -u ~/.vimrc.more -"
 alias ta="tmux attach -t"
 alias tn="tmux new-session -t"
+alias ll="ls -licsah --group-directories-first --color=auto"
+

@@ -28,7 +28,8 @@ root: ~/
 # post: tmux -CC attach -t tasks
 
 windows:
-  - editor:
-      layout: main-vertical
+  - tasks:
+      layout: main-horizontal
       panes:
-        - tasks
+        - tasks:
+            - task
