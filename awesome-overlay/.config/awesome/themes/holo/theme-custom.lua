@@ -17,9 +17,8 @@ local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 local theme                                     = {}
 theme.default_dir                               = require("awful.util").get_themes_dir() .. "default"
 theme.icon_dir                                  = os.getenv("HOME") .. "/.config/awesome/themes/holo/icons"
-theme.wallpaper                                 = os.getenv("HOME") .. "/.config/awesome/themes/holo/wall.png"
-theme.font                                      = "Roboto Bold 10"
-theme.taglist_font                              = "Roboto Condensed Regular 8"
+theme.wallpaper                                 = os.getenv("HOME") .. "/Pictures/nier2bg.png"
+theme.font                                      = "Fira Code Bold 11"
 theme.fg_normal                                 = "#FFFFFF"
 theme.fg_focus                                  = "#0099CC"
 theme.bg_focus                                  = "#303030"
@@ -71,7 +70,7 @@ theme.layout_fullscreen                         = theme.icon_dir .. "/fullscreen
 theme.layout_magnifier                          = theme.icon_dir .. "/magnifier.png"
 theme.layout_floating                           = theme.icon_dir .. "/floating.png"
 theme.tasklist_plain_task_name                  = true
-theme.tasklist_disable_icon                     = true
+theme.tasklist_disable_icon                     = false
 theme.useless_gap                               = dpi(1)
 theme.titlebar_close_button_normal              = theme.default_dir.."/titlebar/close_normal.png"
 theme.titlebar_close_button_focus               = theme.default_dir.."/titlebar/close_focus.png"
@@ -108,7 +107,7 @@ local clockbg = wibox.container.background(mytextclock, theme.bg_focus, gears.sh
 local clockwidget = wibox.container.margin(clockbg, dpi(0), dpi(3), dpi(5), dpi(5))
 
 -- Calendar
-local mytextcalendar = wibox.widget.textclock(markup.fontfg(theme.font, "#FFFFFF", space3 .. "%d %b " .. markup.font("Roboto 5", " ")))
+local mytextcalendar = wibox.widget.textclock(markup.fontfg(theme.font, "#FFFFFF", space3 .. "%d %b " .. markup.font("Fira Code 8", " ")))
 local calendar_icon = wibox.widget.imagebox(theme.calendar)
 local calbg = wibox.container.background(mytextcalendar, theme.bg_focus, gears.shape.rectangle)
 local calendarwidget = wibox.container.margin(calbg, dpi(0), dpi(0), dpi(5), dpi(5))
@@ -118,7 +117,7 @@ theme.cal = lain.widget.cal({
         fg = "#FFFFFF",
         bg = theme.bg_normal,
         position = "bottom_right",
-        font = "Monospace 10"
+        font = "Fira Code 10"
     }
 })
 
@@ -156,11 +155,11 @@ theme.mpd = lain.widget.mpd({
         if mpd_now.state == "play" then
             mpd_now.artist = mpd_now.artist:upper():gsub("&.-;", string.lower)
             mpd_now.title = mpd_now.title:upper():gsub("&.-;", string.lower)
-            widget:set_markup(markup.font("Roboto 4", " ")
+            widget:set_markup(markup.font("Fira Code 4", " ")
                               .. markup.font(theme.taglist_font,
                               " " .. mpd_now.artist
                               .. " - " ..
-                              mpd_now.title .. "  ") .. markup.font("Roboto 5", " "))
+                              mpd_now.title .. "  ") .. markup.font("Fira Code 5", " "))
             play_pause_icon:set_image(theme.pause)
         elseif mpd_now.state == "pause" then
             widget:set_markup(markup.font("Roboto 4", " ") ..
@@ -221,7 +220,7 @@ theme.fs = lain.widget.fs({
 
 -- ALSA volume bar
 theme.volume = lain.widget.alsabar({
-    notification_preset = { font = "Monospace 9"},
+    notification_preset = { font = "Fira Code 9"},
     --togglechannel = "IEC958,3",
     width = dpi(80), height = dpi(10), border_width = dpi(0),
     colors = {
@@ -240,7 +239,7 @@ local cpu_icon = wibox.widget.imagebox(theme.cpu)
 local cpu = lain.widget.cpu({
     settings = function()
         widget:set_markup(space3 .. markup.font(theme.font, "CPU " .. cpu_now.usage
-                          .. "% ") .. markup.font("Roboto 5", " "))
+                          .. "% ") .. markup.font("Fira Code 5", " "))
     end
 })
 local cpubg = wibox.container.background(cpu.widget, theme.bg_focus, gears.shape.rectangle)
@@ -251,8 +250,8 @@ local netdown_icon = wibox.widget.imagebox(theme.net_down)
 local netup_icon = wibox.widget.imagebox(theme.net_up)
 local net = lain.widget.net({
     settings = function()
-        widget:set_markup(markup.font("Roboto 1", " ") .. markup.font(theme.font, net_now.received .. " - "
-                          .. net_now.sent) .. markup.font("Roboto 2", " "))
+        widget:set_markup(markup.font("Fira Code 1", " ") .. markup.font(theme.font, net_now.received .. " - "
+                          .. net_now.sent) .. markup.font("Fira Code 2", " "))
     end
 })
 local netbg = wibox.container.background(net.widget, theme.bg_focus, gears.shape.rectangle)
@@ -261,7 +260,7 @@ local networkwidget = wibox.container.margin(netbg, dpi(0), dpi(0), dpi(5), dpi(
 -- Weather
 theme.weather = lain.widget.weather({
     city_id = 2643743, -- placeholder (London)
-    notification_preset = { font = "Monospace 9", position = "bottom_right" },
+    notification_preset = { font = "Fira Code 9", position = "bottom_right" },
 })
 
 -- Launcher
@@ -269,7 +268,7 @@ local mylauncher = awful.widget.button({ image = theme.awesome_icon_launcher })
 mylauncher:connect_signal("button::press", function() awful.util.mymainmenu:toggle() end)
 
 -- Separators
-local first = wibox.widget.textbox('<span font="Roboto 7"> </span>')
+local first = wibox.widget.textbox('<span font="Fira Code 7"> </span>')
 local spr_small = wibox.widget.imagebox(theme.spr_small)
 local spr_very_small = wibox.widget.imagebox(theme.spr_very_small)
 local spr_right = wibox.widget.imagebox(theme.spr_right)
