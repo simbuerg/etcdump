@@ -11,13 +11,10 @@ local machi         = require('layout-machi')
 local beautiful     = require("beautiful")
 local naughty       = require("naughty")
 local lain          = require("lain")
---local tyrannical    = require("tyrannical")
---local menubar       = require("menubar")
 local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
                       require("awful.hotkeys_popup.keys")
 local posix         = require("posix")
-                      require("screenful.screenful")
 local my_table      = awful.util.table -- or gears.table -- 4.{0,1} compatibility
 -- }}}
 
