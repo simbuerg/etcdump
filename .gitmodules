@@ -7,12 +7,12 @@
 [submodule "awesome"]
 	path = awesome/.config/awesome
 	url = https://github.com/copycat-killer/awesome-copycats
-[submodule "termgrp"]
+[submodule "awesome-overlay"]
 	path = awesome-overlay/.config/awesome/termgrp
 	url = https://github.com/wheatdog/awesome-termgrp
 [submodule "tyrannical"]
 	path = awesome-overlay/.config/awesome/tyrannical
-        url = https://github.com/Elv13/tyrannical
-[submodule "awesome-overlay/.config/awesome/screenful"]
-	path = awesome-overlay/.config/awesome/screenful
-	url = https://github.com/dluksza/screenful
+	url = https://github.com/Elv13/tyrannical.git
+[submodule "awesome-layout-machi/.config/awesome/layout-machi"]
+	path = awesome-layout-machi/.config/awesome/layout-machi
+	url = https://github.com/xinhaoyuan/layout-machi

@@ -7,10 +7,11 @@ local awful         = require("awful")
                       require("awful.autofocus")
                       require("awful.remote")
 local wibox         = require("wibox")
+local machi         = require('layout-machi')
 local beautiful     = require("beautiful")
 local naughty       = require("naughty")
 local lain          = require("lain")
-local tyrannical    = require("tyrannical")
+--local tyrannical    = require("tyrannical")
 --local menubar       = require("menubar")
 local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
@@ -58,7 +59,8 @@ end
 
 -- run_once({ "unclutter -root" })
 -- run_once({ "nm-applet --sm-disable &" })
-run_once({ "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &" })
+run_once({ "/usr/lib/polkit-kde-agent-1 &" })
+run_once({ "/usr/lib/polkit-kde-authentication-agent-1 &" })
 -- }}}
 
 -- {{{ set env vars
@@ -96,73 +98,74 @@ local altkey       = "Mod1"
 local terminal     = "alacritty"
 local editor       = os.getenv("EDITOR") or "vim"
 local gui_editor   = "code"
-local browser      = "firefox"
+local browser      = "vivaldi-stable"
 local screen_layouts = os.getenv("HOME") .. "/.screenlayout/"
 local scrlocker    = "i3lock"
 local known_layouts = {
-  "office-2b.sh"
+  "laptop-only.sh",
+  "office.sh",
+  "beamer_mirror_1024.sh",
+  "office-2b.sh",
 }
 
 awful.util.terminal = terminal
-awful.util.tagnames = { }
+awful.util.tagnames = { "1", "2", "3", "4", "5", }
+
+local layout = machi.layout.create({ name = "1" })
 awful.layout.layouts = {
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.floating,
-    awful.layout.suit.max,
-    awful.layout.suit.fair,
-    awful.layout.suit.magnifier
+   machi.default_layout,
+   awful.layout.suit.floating,
+   awful.layout.suit.tile,
+   awful.layout.suit.tile.left
 }
 
-tyrannical.settings.default_layout = awful.layout.suit.tile
-tyrannical.settings.block_children_focus_stealing = false
-tyrannical.settings.group_children = true
-
-tyrannical.tags = {
-  { name = "1", init = true, volatile = false, exclusive = false,
-                   screen = screen.count() > 1 and 2 or 1,
-                   layout = awful.layout.suit.tile
-  },
-  { name = "term", init = true, volatile = true, exclusive = false,
-                   screen = screen.count() > 1 and 2 or 1,
-                   layout = awful.layout.suit.tile,
-                   class = {"kitty", "alacritty"}
-  },
-  { name = "www", init = true, volatile = true, exclusive = false,
-                  screen = screen.count() > 1 and 2 or 1,
-                  layout = awful.layout.suit.tile,
-                  class = {"vivaldi-stable", "firefox"}
-  },
-  { name = "code", init = true, volatile = true, exclusive = false,
-                  screen = screen.count() > 1 and 2 or 1,
-                  layout = awful.layout.suit.tile,
-                  class = {"code"}
-  },
-  { name = "mail", init = true, volatile = true, exclusive = false,
-                   screen = screen.count() > 1 and 2 or 1,
-                   layout = awful.layout.suit.tile,
-                   class = {"thunderbird", "evolution" }
-  },
-  { name = "file", init = true, volatile = true, exclusive = false,
-                   screen = screen.count() > 1 and 2 or 1,
-                   layout = awful.layout.suit.tile,
-                   class = {"io.elementary.files", "Org.gnome.Nautilus"}
-  },
-  { name = "vms", init = true, volatile = true, exclusive = false,
-                   screen = screen.count() > 1 and 2 or 1,
-                   layout = awful.layout.suit.tile,
-                   class = {"Virt-manager"}
-  },
-  { name = "vms", init = true, volatile = true, exclusive = false,
-                   screen = screen.count() > 1 and 2 or 1,
-                   layout = awful.layout.suit.tile,
-                   class = {"org.remmina.Remmina"}
-  }
-}
-
+--tyrannical.settings.default_layout = awful.layout.suit.tile
+--tyrannical.settings.block_children_focus_stealing = true
+--tyrannical.settings.group_children = true
+--
+--tyrannical.tags = {
+--  { name = "term", init = true, exclusive = false,
+--                   screen = screen.count() > 1 and 2 or 1,
+--                   layout = awful.layout.suit.tile,
+--                   instance = {"dev", "ops"},
+--                   class = {"kitty", "alacritty"}
+--  },
+--  { name = "www", init = true, exclusive = false,
+--                  screen = screen.count() > 1 and 2 or 1,
+--                  layout = awful.layout.suit.tile,
+--                  --exec_once = {"vivaldi-stable"},
+--                  class = {"vivaldi-stable", "firefox", "qutebrowser"}
+--  },
+--  { name = "code", init = true, exclusive = false,
+--                  screen = screen.count() > 1 and 2 or 1,
+--                  layout = awful.layout.suit.max,
+--                  class = {"code", "vscodium"}
+--  },
+--  { name = "mail", init = true, exclusive = false,
+--                   screen = screen.count() > 1 and 2 or 1,
+--                   layout = awful.layout.suit.max,
+--                   class = {"thunderbird", "evolution"}
+--  },
+--  { name = "file", init = true, exclusive = false,
+--                   screen = screen.count() > 1 and 2 or 1,
+--                   layout = awful.layout.suit.max,
+--                   class = {"io.elementary.files", "Org.gnome.nautilus" }
+--  },
+--  { name = "wine", init = true, exclusive = true,
+--                   screen = screen.count() > 1 and 2 or 1,
+--                   layout = awful.layout.suit.max,
+--                   class = {"wine" }
+--  },
+--}
+--
 ---- Let these clients ignore the exclusive property.
-tyrannical.properties.intrusive = { "pinentry" }
-tyrannical.properties.floating = { "pinentry" }
+--tyrannical.properties.intrusive = {
+--  "pinentry"
+--}
+--
+--tyrannical.properties.floating = {
+--  "pinentry"
+--}
 
 awful.util.taglist_buttons = my_table.join(
     awful.button({ }, 1, function(t) t:view_only() end),
@@ -228,6 +231,10 @@ lain.layout.cascade.tile.nmaster       = 5
 lain.layout.cascade.tile.ncol          = 2
 
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme-custom.lua", os.getenv("HOME"), chosen_theme))
+--- {{{ Configure machi
+beautiful.layout_machi = machi.get_icon()
+--- }}}
+
 -- }}}
 -- {{{ Menu
 local myawesomemenu = {
@@ -457,6 +464,12 @@ globalkeys = my_table.join(
               {description = "select next", group = "layout"}),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
               {description = "select previous", group = "layout"}),
+
+    -- Machi Editor
+    awful.key({ modkey,           }, ".", function () machi.default_editor.start_interactive() end,
+              {description = "edit the current layout if it is a machi layout", group = "layout"}),
+    awful.key({ modkey,           }, "/", function () machi.switcher.start(client.focus) end,
+              {description = "switch between windows for a machi layout", group = "layout"}),
 
     awful.key({ modkey, "Control" }, "n",
               function ()
