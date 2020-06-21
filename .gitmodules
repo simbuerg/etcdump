@@ -10,9 +10,15 @@
 [submodule "awesome-overlay"]
 	path = awesome-overlay/.config/awesome/termgrp
 	url = https://github.com/wheatdog/awesome-termgrp
-[submodule "tyrannical"]
-	path = awesome-overlay/.config/awesome/tyrannical
-	url = https://github.com/Elv13/tyrannical.git
 [submodule "awesome-layout-machi/.config/awesome/layout-machi"]
 	path = awesome-layout-machi/.config/awesome/layout-machi
 	url = https://github.com/xinhaoyuan/layout-machi
+[submodule "awesome-smart-borders/.config/awesome/smart_borders"]
+	path = awesome-smart-borders/.config/awesome/smart_borders
+	url = https://github.com/intrntbrn/smart_borders
+[submodule "awesome-icon-customizer/.config/awesome/icon_customizer"]
+	path = awesome-icon-customizer/.config/awesome/icon_customizer
+	url = https://github.com/intrntbrn/icon_customizer
+[submodule "awesome-vim-tmux-navigator/.config/awesome/awesomewm-vim-tmux-navigator"]
+	path = awesome-vim-tmux-navigator/.config/awesome/awesomewm-vim-tmux-navigator
+	url = https://github.com/intrntbrn/awesomewm-vim-tmux-navigator

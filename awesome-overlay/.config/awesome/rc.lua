@@ -9,12 +9,14 @@ local awful         = require("awful")
 local wibox         = require("wibox")
 local machi         = require('layout-machi')
 local beautiful     = require("beautiful")
+local dpi   	    = require("beautiful.xresources").apply_dpi
 local naughty       = require("naughty")
 local lain          = require("lain")
 local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
                       require("awful.hotkeys_popup.keys")
 local posix         = require("posix")
+
 local my_table      = awful.util.table -- or gears.table -- 4.{0,1} compatibility
 -- }}}
 
@@ -89,7 +91,7 @@ local themes = {
     "vertex",          -- 10
 }
 
-local chosen_theme = themes[4]
+local chosen_theme = "holo"
 local modkey       = "Mod4"
 local altkey       = "Mod1"
 local terminal     = "alacritty"
@@ -115,54 +117,6 @@ awful.layout.layouts = {
    awful.layout.suit.tile,
    awful.layout.suit.tile.left
 }
-
---tyrannical.settings.default_layout = awful.layout.suit.tile
---tyrannical.settings.block_children_focus_stealing = true
---tyrannical.settings.group_children = true
---
---tyrannical.tags = {
---  { name = "term", init = true, exclusive = false,
---                   screen = screen.count() > 1 and 2 or 1,
---                   layout = awful.layout.suit.tile,
---                   instance = {"dev", "ops"},
---                   class = {"kitty", "alacritty"}
---  },
---  { name = "www", init = true, exclusive = false,
---                  screen = screen.count() > 1 and 2 or 1,
---                  layout = awful.layout.suit.tile,
---                  --exec_once = {"vivaldi-stable"},
---                  class = {"vivaldi-stable", "firefox", "qutebrowser"}
---  },
---  { name = "code", init = true, exclusive = false,
---                  screen = screen.count() > 1 and 2 or 1,
---                  layout = awful.layout.suit.max,
---                  class = {"code", "vscodium"}
---  },
---  { name = "mail", init = true, exclusive = false,
---                   screen = screen.count() > 1 and 2 or 1,
---                   layout = awful.layout.suit.max,
---                   class = {"thunderbird", "evolution"}
---  },
---  { name = "file", init = true, exclusive = false,
---                   screen = screen.count() > 1 and 2 or 1,
---                   layout = awful.layout.suit.max,
---                   class = {"io.elementary.files", "Org.gnome.nautilus" }
---  },
---  { name = "wine", init = true, exclusive = true,
---                   screen = screen.count() > 1 and 2 or 1,
---                   layout = awful.layout.suit.max,
---                   class = {"wine" }
---  },
---}
---
----- Let these clients ignore the exclusive property.
---tyrannical.properties.intrusive = {
---  "pinentry"
---}
---
---tyrannical.properties.floating = {
---  "pinentry"
---}
 
 awful.util.taglist_buttons = my_table.join(
     awful.button({ }, 1, function(t) t:view_only() end),
@@ -716,72 +670,82 @@ client.connect_signal("manage", function (c)
     end
 end)
 
--- Add a titlebar if titlebars_enabled is set to true in the rules.
-client.connect_signal("request::titlebars", function(c)
-    -- Custom
-    if beautiful.titlebar_fun then
-        beautiful.titlebar_fun(c)
-        return
-    end
-
-    -- Default
-    -- buttons for the titlebar
-    local buttons = my_table.join(
-        awful.button({ }, 1, function()
-            c:emit_signal("request::activate", "titlebar", {raise = true})
-            awful.mouse.client.move(c)
-        end),
-        awful.button({ }, 2, function() c:kill() end),
-        awful.button({ }, 3, function()
-            c:emit_signal("request::activate", "titlebar", {raise = true})
-            awful.mouse.client.resize(c)
-        end)
-    )
-
-    awful.titlebar(c, {size = 16}) : setup {
-        { -- Left
-            awful.titlebar.widget.iconwidget(c),
-            buttons = buttons,
-            layout  = wibox.layout.fixed.horizontal
-        },
-        { -- Middle
-            { -- Title
-                align  = "right",
-                widget = awful.titlebar.widget.titlewidget(c)
-            },
-            buttons = buttons,
-            layout  = wibox.layout.flex.horizontal
-        },
-        { -- Right
-            awful.titlebar.widget.floatingbutton (c),
-            awful.titlebar.widget.maximizedbutton(c),
-            awful.titlebar.widget.stickybutton   (c),
-            awful.titlebar.widget.ontopbutton    (c),
-            awful.titlebar.widget.closebutton    (c),
-            layout = wibox.layout.fixed.horizontal()
-        },
-        layout = wibox.layout.align.horizontal
-    }
-end)
-
 -- Enable sloppy focus, so that focus follows mouse.
--- client.connect_signal("mouse::enter", function(c)
---      c:emit_signal("request::activate", "mouse_enter", {raise = true})
--- end)
+--client.connect_signal("mouse::enter", function(c)
+--     c:emit_signal("request::activate", "mouse_enter", {raise = true})
+--end)
 
 -- No border for maximized clients
-function border_adjust(c)
-    if c.maximized then -- no borders if only 1 client visible
-        c.border_width = 0
-    elseif #awful.screen.focused().clients > 1 then
-        c.border_width = beautiful.border_width
-        c.border_color = beautiful.border_focus
-    end
-end
+--function border_adjust(c)
+--    if c.maximized then -- no borders if only 1 client visible
+--        c.border_width = 0
+--    elseif #awful.screen.focused().clients > 1 then
+--        c.border_width = beautiful.border_width
+--        c.border_color = beautiful.border_focus
+--    end
+--end
 
-client.connect_signal("property::maximized", border_adjust)
-client.connect_signal("focus", border_adjust)
-client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+require("smart_borders"){
+	show_button_tooltips = false,
+        stealth = true,
+	button_positions = { "top" },
+	buttons = { "floating", "minimize", "maximize", "close" },
+
+	layout = "fixed",
+	button_ratio = 0.25,
+	align_horizontal = "center",
+	button_size = dpi(40),
+	button_floating_size = dpi(60),
+	button_close_size = dpi(60),
+	border_width = dpi(8),
+
+	color_close_normal = {
+		type = "linear",
+		from = { 0, 0 },
+		to = { 60, 0 },
+		stops = { { 0, "#fd8489" }, { 1, "#56666f" } }
+	},
+	color_close_focus = {
+		type = "linear",
+		from = { 0, 0 },
+		to = { 60, 0 },
+		stops = { { 0, "#fd8489" }, { 1, "#a1bfcf" } }
+	},
+	color_close_hover = {
+		type = "linear",
+		from = { 0, 0 },
+		to = { 60, 0 },
+		stops = { { 0, "#FF9EA3" }, { 1, "#a1bfcf" } }
+	},
+	color_floating_normal = {
+		type = "linear",
+		from = { 0, 0 },
+		to = { 40, 0 },
+		stops = { { 0, "#56666f" }, { 1, "#ddace7" } }
+	},
+	color_floating_focus = {
+		type = "linear",
+		from = { 0, 0 },
+		to = { 40, 0 },
+		stops = { { 0, "#a1bfcf" }, { 1, "#ddace7" } }
+	},
+	color_floating_hover = {
+		type = "linear",
+		from = { 0, 0 },
+		to = { 40, 0 },
+		stops = { { 0, "#a1bfcf" }, { 1, "#F7C6FF" } }
+	},
+
+	-- custom control example:
+	button_back = function(c)
+		-- set client as master
+		c:swap(awful.client.getmaster())
+	end
+}
+
+--client.connect_signal("property::maximized", border_adjust)
+--client.connect_signal("focus", border_adjust)
+--client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 -- possible workaround for tag preservation when switching back to default screen:
 -- https://github.com/lcpz/awesome-copycats/issues/251

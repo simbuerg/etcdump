@@ -13,11 +13,18 @@ local dpi   = require("beautiful.xresources").apply_dpi
 
 local string, os = string, os
 local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
+local system_icon_dir = "/usr/share/icons/Numix-Circle/48/apps/"
 
 local theme                                     = {}
 theme.default_dir                               = require("awful.util").get_themes_dir() .. "default"
 theme.icon_dir                                  = os.getenv("HOME") .. "/.config/awesome/themes/holo/icons"
-theme.wallpaper                                 = os.getenv("HOME") .. "/Pictures/nier2bg.png"
+theme.wallpaper                                 = function(s)
+  if s.geometry.width >= s.geometry.height then
+    return os.getenv("HOME") .. "/Pictures/nier2bg.png"
+  end
+  return os.getenv("HOME") .. "/Pictures/nier2bvertical.png"
+end
+
 theme.font                                      = "Fira Code Bold 11"
 theme.fg_normal                                 = "#FFFFFF"
 theme.fg_focus                                  = "#0099CC"
@@ -25,7 +32,7 @@ theme.bg_focus                                  = "#303030"
 theme.bg_normal                                 = "#242424"
 theme.fg_urgent                                 = "#CC9393"
 theme.bg_urgent                                 = "#006B8E"
-theme.border_width                              = dpi(3)
+theme.border_width                              = dpi(0)
 theme.border_normal                             = "#252525"
 theme.border_focus                              = "#0099CC"
 theme.taglist_fg_focus                          = "#FFFFFF"
@@ -71,7 +78,7 @@ theme.layout_magnifier                          = theme.icon_dir .. "/magnifier.
 theme.layout_floating                           = theme.icon_dir .. "/floating.png"
 theme.tasklist_plain_task_name                  = true
 theme.tasklist_disable_icon                     = false
-theme.useless_gap                               = dpi(1)
+theme.useless_gap                               = dpi(0)
 theme.titlebar_close_button_normal              = theme.default_dir.."/titlebar/close_normal.png"
 theme.titlebar_close_button_focus               = theme.default_dir.."/titlebar/close_focus.png"
 theme.titlebar_minimize_button_normal           = theme.default_dir.."/titlebar/minimize_normal.png"
@@ -93,7 +100,28 @@ theme.titlebar_maximized_button_focus_inactive  = theme.default_dir.."/titlebar/
 theme.titlebar_maximized_button_normal_active   = theme.default_dir.."/titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_active    = theme.default_dir.."/titlebar/maximized_focus_active.png"
 
-theme.musicplr = string.format("%s -e ncmpcpp", awful.util.terminal)
+theme.musicplr = string.format("%s -e gpmdp", awful.util.terminal)
+
+require('icon_customizer'){
+  icons = {
+          ["Chromium"] = system_icon_dir .. "chromium.svg",
+          ["firefox"] = system_icon_dir .. "firefox.svg",
+          ["Vivaldi-stable"] = system_icon_dir .. "vivaldi.svg",
+          ["Signal"] = system_icon_dir .. "signal.svg",
+          ["Zathura"] = system_icon_dir .. "zathura.svg",
+          ["Steam"] = system_icon_dir .. "steam.svg",
+          ["discord"] = system_icon_dir .. "discord.svg",
+          ["kitty"] = system_icon_dir .. "terminal.svg",
+          ["Alacritty"] = system_icon_dir .. "terminal.svg"
+  },
+  dynamic_classes = { "Alacritty", "kitty", "St", "URxvt", "Termite" },
+  dynamic_icons = {
+          ["- NVIM$"] = system_icon_dir .. "vim.svg",
+          ["- VIM$"] = system_icon_dir .. "vim.svg",
+          [": ranger$"] = system_icon_dir .. "file-manager.svg",
+          ["- rtv"] = system_icon_dir .. "web-reddit.svg"
+  },
+}
 
 local markup = lain.util.markup
 local blue   = "#80CCE6"
@@ -116,32 +144,10 @@ theme.cal = lain.widget.cal({
     notification_preset = {
         fg = "#FFFFFF",
         bg = theme.bg_normal,
-        position = "bottom_right",
+        position = "top_right",
         font = "Fira Code 10"
     }
 })
-
--- Mail IMAP check
---[[ commented because it needs to be set before use
-theme.mail = lain.widget.imap({
-    timeout  = 180,
-    server   = "server",
-    mail     = "mail",
-    password = "keyring get mail",
-    settings = function()
-        mail_notification_preset.fg = "#FFFFFF"
-        mail  = ""
-        count = ""
-
-        if mailcount > 0 then
-            mail = "Mail "
-            count = mailcount .. " "
-        end
-
-        widget:set_markup(markup.font(theme.font, markup(blue, mail) .. markup("#FFFFFF", count)))
-    end
-})
---]]
 
 -- MPD
 local mpd_icon = awful.widget.launcher({ image = theme.mpdl, command = theme.musicplr })
@@ -210,13 +216,6 @@ local bat = lain.widget.bat({
         widget:set_markup(markup.font(theme.font, markup(blue, bat_header) .. bat_p))
     end
 })
-
--- / fs
---[[ commented because it needs Gio/Glib >= 2.54
-theme.fs = lain.widget.fs({
-    notification_preset = { bg = theme.bg_normal, font = "Monospace 9" },
-})
---]]
 
 -- ALSA volume bar
 theme.volume = lain.widget.alsabar({
@@ -287,13 +286,13 @@ local barcolor  = gears.color({
 function theme.at_screen_connect(s)
     -- Quake application
     s.quake = lain.util.quake({ app = awful.util.terminal })
+    local is_vertical = s.geometry.width <= s.geometry.height
 
     -- If wallpaper is a function, call it with the screen
     local wallpaper = theme.wallpaper
     if type(wallpaper) == "function" then
         wallpaper = wallpaper(s)
     end
-    gears.wallpaper.maximized(wallpaper, s, true)
 
     -- Tags
     awful.tag(awful.util.tagnames, s, awful.layout.layouts)
@@ -309,37 +308,52 @@ function theme.at_screen_connect(s)
                            awful.button({}, 3, function () awful.layout.inc(-1) end),
                            awful.button({}, 4, function () awful.layout.inc( 1) end),
                            awful.button({}, 5, function () awful.layout.inc(-1) end)))
+
     -- Create a taglist widget
-    s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, awful.util.taglist_buttons, { bg_focus = barcolor })
+    local fancy_taglist = require("fancy_taglist")
+    s.mytaglist = fancy_taglist.new({ screen = s })
 
     mytaglistcont = wibox.container.background(s.mytaglist, theme.bg_focus, gears.shape.rectangle)
-    s.mytag = wibox.container.margin(mytaglistcont, dpi(0), dpi(0), dpi(5), dpi(5))
+    s.mytag = wibox.container.margin(mytaglistcont, dpi(0), dpi(0), dpi(0), dpi(0))
 
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, awful.util.tasklist_buttons, { bg_focus = theme.bg_focus, shape = gears.shape.rectangle, shape_border_width = 5, shape_border_color = theme.tasklist_bg_normal, align = "center" })
 
-    -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(32) })
+    -- Don't stretch the wallpaper vertically
+    if is_vertical then
+      gears.wallpaper.maximized(wallpaper, s, false)
+      s.mywibox = awful.wibar({ position = "bottom", screen = s, height = dpi(32) })
+    else
+      gears.wallpaper.maximized(wallpaper, s, true)
+      s.mywibox = awful.wibar({ position = "bottom", screen = s, height = dpi(32) })
+    end
 
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            first,
+            mylauncher,
             s.mytag,
             spr_small,
             s.mylayoutbox,
             spr_small,
             s.mypromptbox,
         },
-        nil, -- Middle widget
+        s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
             --theme.mail.widget,
             --bat.widget,
             spr_right,
+            netdown_icon,
+            networkwidget,
+            netup_icon,
+            bar,
+            cpu_icon,
+            cpuwidget,
+            bar,
             musicwidget,
             bar,
             prev_icon,
@@ -351,39 +365,11 @@ function theme.at_screen_connect(s)
             bar,
             spr_very_small,
             volumewidget,
-            spr_left,
-        },
-    }
-
-    -- Create the bottom wibox
-    s.mybottomwibox = awful.wibar({ position = "bottom", screen = s, border_width = dpi(0), height = dpi(32) })
-    s.borderwibox = awful.wibar({ position = "bottom", screen = s, height = dpi(1), bg = theme.fg_focus, x = dpi(0), y = dpi(33)})
-
-    -- Add widgets to the bottom wibox
-    s.mybottomwibox:setup {
-        layout = wibox.layout.align.horizontal,
-        { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
-            mylauncher,
-        },
-        s.mytasklist, -- Middle widget
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-            spr_bottom_right,
-            netdown_icon,
-            networkwidget,
-            netup_icon,
-            bottom_bar,
-            cpu_icon,
-            cpuwidget,
-            bottom_bar,
-            calendar_icon,
-            calendarwidget,
-            bottom_bar,
             clock_icon,
             clockwidget,
+            calendar_icon,
+            calendarwidget,
         },
     }
 end
-
 return theme
