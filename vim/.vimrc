@@ -17,19 +17,18 @@ Plug 'tbabej/taskwiki'
 Plug 'powerman/vim-plugin-AnsiEsc'
 Plug 'farseer90718/vim-taskwarrior'
 
-" Plug 'tweekmonster/braceless.vim', { 'for' : ['python'] }
+Plug 'tweekmonster/braceless.vim', { 'for' : ['python'] }
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-surround'
-" Plug 'crusoexia/vim-monokai'
 Plug 'reedes/vim-colors-pencil'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
-" Plug 'terryma/vim-multiple-cursors'
 Plug 'dense-analysis/ale'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-fugitive'
+Plug 'intrntbrn/awesomewm-vim-tmux-navigator'
 
 call plug#end()
 
