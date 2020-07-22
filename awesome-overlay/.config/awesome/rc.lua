@@ -9,7 +9,7 @@ local awful         = require("awful")
 local wibox         = require("wibox")
 local machi         = require('layout-machi')
 local beautiful     = require("beautiful")
-local dpi           = require("beautiful.xresources").apply_dpi
+local dpi   	    = require("beautiful.xresources").apply_dpi
 local naughty       = require("naughty")
 local lain          = require("lain")
 local freedesktop   = require("freedesktop")
@@ -18,64 +18,6 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 local posix         = require("posix")
 
 local my_table      = awful.util.table -- or gears.table -- 4.{0,1} compatibility
-                      require("smart_borders"){
-   show_button_tooltips = true,
-
-   button_positions = { "top" },
-   buttons = { "floating", "minimize", "maximize", "close" },
-
-   layout = "fixed",
-   button_ratio = 0.25,
-   align_horizontal = "center",
-   button_size = dpi(40),
-   button_floating_size = dpi(60),
-   button_close_size = dpi(60),
-   border_width = dpi(8),
-
-   color_close_normal = {
-     type = "linear",
-     from = { 0, 0 },
-     to = { 60, 0 },
-     stops = { { 0, "#fd8489" }, { 1, "#56666f" } }
-   },
-   color_close_focus = {
-     type = "linear",
-     from = { 0, 0 },
-     to = { 60, 0 },
-     stops = { { 0, "#fd8489" }, { 1, "#a1bfcf" } }
-   },
-   color_close_hover = {
-     type = "linear",
-     from = { 0, 0 },
-     to = { 60, 0 },
-     stops = { { 0, "#FF9EA3" }, { 1, "#a1bfcf" } }
-   },
-   color_floating_normal = {
-     type = "linear",
-     from = { 0, 0 },
-     to = { 40, 0 },
-     stops = { { 0, "#56666f" }, { 1, "#ddace7" } }
-   },
-   color_floating_focus = {
-     type = "linear",
-     from = { 0, 0 },
-     to = { 40, 0 },
-     stops = { { 0, "#a1bfcf" }, { 1, "#ddace7" } }
-   },
-   color_floating_hover = {
-     type = "linear",
-     from = { 0, 0 },
-     to = { 40, 0 },
-     stops = { { 0, "#a1bfcf" }, { 1, "#F7C6FF" } }
-   },
-
-   -- custom control example:
-   button_back = function(c)
-     -- set client as master
-     c:swap(awful.client.getmaster())
-   end
-}
-
 -- }}}
 
 -- {{{ Error handling
@@ -116,6 +58,7 @@ end
 
 -- run_once({ "unclutter -root" })
 -- run_once({ "nm-applet --sm-disable &" })
+run_once({ "/usr/lib/polkit-kde-agent-1 &" })
 run_once({ "/usr/lib/polkit-kde-authentication-agent-1 &" })
 -- }}}
 
@@ -634,17 +577,17 @@ globalkeys = my_table.join(
     -- Prompt
     awful.key({ modkey }, "p",
               function ()
-                os.execute("rofi-pass")
+                os.execute("rofi-pass") 
               end,
               {description = "run prompt", group = "launcher"}),
     awful.key({ modkey }, "r",
               function ()
-                os.execute("rofi -modi run,drun -show run -theme sidebar")
+                os.execute("rofi -modi run,drun -show run -theme sidebar") 
               end,
               {description = "run prompt", group = "launcher"}),
     awful.key({ modkey }, "x",
               function ()
-                os.execute("rofi -modi run,drun -show drun -theme sidebar")
+                os.execute("rofi -modi run,drun -show drun -theme sidebar") 
               end,
               {description = "run prompt", group = "launcher"})
 )
@@ -764,8 +707,8 @@ root.keys(globalkeys)
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
-      properties = { --border_width = beautiful.border_width,
-                     --border_color = beautiful.border_normal,
+      properties = { border_width = beautiful.border_width,
+                     border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
                      raise = true,
                      keys = clientkeys,
@@ -817,6 +760,64 @@ end)
 --    end
 --end
 
+require("smart_borders"){
+	show_button_tooltips = false,
+        stealth = true,
+	button_positions = { "top" },
+	buttons = { "floating", "minimize", "maximize", "close" },
+
+	layout = "fixed",
+	button_ratio = 0.25,
+	align_horizontal = "center",
+	button_size = dpi(40),
+	button_floating_size = dpi(60),
+	button_close_size = dpi(60),
+	border_width = dpi(8),
+
+	color_close_normal = {
+		type = "linear",
+		from = { 0, 0 },
+		to = { 60, 0 },
+		stops = { { 0, "#fd8489" }, { 1, "#56666f" } }
+	},
+	color_close_focus = {
+		type = "linear",
+		from = { 0, 0 },
+		to = { 60, 0 },
+		stops = { { 0, "#fd8489" }, { 1, "#a1bfcf" } }
+	},
+	color_close_hover = {
+		type = "linear",
+		from = { 0, 0 },
+		to = { 60, 0 },
+		stops = { { 0, "#FF9EA3" }, { 1, "#a1bfcf" } }
+	},
+	color_floating_normal = {
+		type = "linear",
+		from = { 0, 0 },
+		to = { 40, 0 },
+		stops = { { 0, "#56666f" }, { 1, "#ddace7" } }
+	},
+	color_floating_focus = {
+		type = "linear",
+		from = { 0, 0 },
+		to = { 40, 0 },
+		stops = { { 0, "#a1bfcf" }, { 1, "#ddace7" } }
+	},
+	color_floating_hover = {
+		type = "linear",
+		from = { 0, 0 },
+		to = { 40, 0 },
+		stops = { { 0, "#a1bfcf" }, { 1, "#F7C6FF" } }
+	},
+
+	-- custom control example:
+	button_back = function(c)
+		-- set client as master
+		c:swap(awful.client.getmaster())
+	end
+}
+
 --client.connect_signal("property::maximized", border_adjust)
 --client.connect_signal("focus", border_adjust)
 --client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
@@ -825,8 +826,8 @@ end)
 -- https://github.com/lcpz/awesome-copycats/issues/251
 -- }}}
 require("awesomewm-vim-tmux-navigator"){
-        up    = {"k"},
-        down  = {"j"},
-        left  = {"h"},
-        right = {"l"},
+        up    = {modkey, "k"},
+        down  = {modkey, "j"},
+        left  = {modkey, "h"},
+        right = {modkey, "l"},
     }
