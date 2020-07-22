@@ -112,7 +112,8 @@ require('icon_customizer'){
           ["Steam"] = system_icon_dir .. "steam.svg",
           ["discord"] = system_icon_dir .. "discord.svg",
           ["kitty"] = system_icon_dir .. "terminal.svg",
-          ["Alacritty"] = system_icon_dir .. "terminal.svg"
+          ["Alacritty"] = system_icon_dir .. "terminal.svg",
+          ["Evolution"] = system_icon_dir .. "evolution.svg",
   },
   dynamic_classes = { "Alacritty", "kitty", "St", "URxvt", "Termite" },
   dynamic_icons = {
