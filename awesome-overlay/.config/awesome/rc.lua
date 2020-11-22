@@ -9,7 +9,7 @@ local awful         = require("awful")
 local wibox         = require("wibox")
 local machi         = require('layout-machi')
 local beautiful     = require("beautiful")
-local dpi   	    = require("beautiful.xresources").apply_dpi
+local dpi           = require("beautiful.xresources").apply_dpi
 local naughty       = require("naughty")
 local lain          = require("lain")
 local freedesktop   = require("freedesktop")
@@ -99,6 +99,7 @@ local editor       = os.getenv("EDITOR") or "vim"
 local gui_editor   = "code"
 local browser      = "vivaldi-stable"
 local screen_layouts = os.getenv("HOME") .. "/.screenlayout/"
+local pass_command = "rofi-pass --root" .. os.getenv("HOME") .. "/.password-store:" .. os.getenv("HOME") .. "/.password-store-zim"
 local scrlocker    = "i3lock"
 local known_layouts = {
   "laptop-only.sh",
@@ -108,7 +109,7 @@ local known_layouts = {
 }
 
 awful.util.terminal = terminal
-awful.util.tagnames = { "1", "2", "3", "4", "5", }
+awful.util.tagnames = { "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 
 local layout = machi.layout.create({ name = "1" })
 awful.layout.layouts = {
@@ -171,15 +172,15 @@ awful.util.tasklist_buttons = my_table.join(
     awful.button({ }, 5, function () awful.client.focus.byidx(-1) end)
 )
 
-lain.layout.termfair.nmaster           = 3
-lain.layout.termfair.ncol              = 1
-lain.layout.termfair.center.nmaster    = 3
-lain.layout.termfair.center.ncol       = 1
-lain.layout.cascade.tile.offset_x      = 2
-lain.layout.cascade.tile.offset_y      = 32
-lain.layout.cascade.tile.extra_padding = 5
-lain.layout.cascade.tile.nmaster       = 5
-lain.layout.cascade.tile.ncol          = 2
+--lain.layout.termfair.nmaster           = 3
+--lain.layout.termfair.ncol              = 1
+--lain.layout.termfair.center.nmaster    = 3
+--lain.layout.termfair.center.ncol       = 1
+--lain.layout.cascade.tile.offset_x      = 2
+--lain.layout.cascade.tile.offset_y      = 32
+--lain.layout.cascade.tile.extra_padding = 5
+--lain.layout.cascade.tile.nmaster       = 5
+--lain.layout.cascade.tile.ncol          = 2
 
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme-custom.lua", os.getenv("HOME"), chosen_theme))
 --- {{{ Configure machi
@@ -423,18 +424,18 @@ globalkeys = my_table.join(
     ),
 
     -- On the fly useless gaps change
-    awful.key({ altkey, "Control" }, "+",
-      function ()
-        lain.util.useless_gaps_resize(1)
-      end,
-      {description = "increment useless gaps", group = "tag"}
-    ),
-    awful.key({ altkey, "Control" }, "-",
-      function ()
-        lain.util.useless_gaps_resize(-1)
-      end,
-      {description = "decrement useless gaps", group = "tag"}
-    ),
+    --awful.key({ altkey, "Control" }, "+",
+    --  function ()
+    --    lain.util.useless_gaps_resize(1)
+    --  end,
+    --  {description = "increment useless gaps", group = "tag"}
+    --),
+    --awful.key({ altkey, "Control" }, "-",
+    --  function ()
+    --    lain.util.useless_gaps_resize(-1)
+    --  end,
+    --  {description = "decrement useless gaps", group = "tag"}
+    --),
 
     -- Dynamic tagging
     awful.key({ modkey, "Shift" }, "n",
@@ -509,8 +510,8 @@ globalkeys = my_table.join(
               {description = "restore minimized", group = "client"}),
 
     -- Dropdown application
-    awful.key({ modkey, }, "z", function () awful.screen.focused().quake:toggle() end,
-              {description = "dropdown application", group = "launcher"}),
+    --awful.key({ modkey, }, "z", function () awful.screen.focused().quake:toggle() end,
+    --          {description = "dropdown application", group = "launcher"}),
 
     -- Brightness
     awful.key({ }, "XF86MonBrightnessUp", function () os.execute("xbacklight -inc 10") end,
@@ -577,7 +578,7 @@ globalkeys = my_table.join(
     -- Prompt
     awful.key({ modkey }, "p",
               function ()
-                os.execute("rofi-pass") 
+                os.execute(pass_command) 
               end,
               {description = "run prompt", group = "launcher"}),
     awful.key({ modkey }, "r",
@@ -723,9 +724,7 @@ awful.rules.rules = {
     },
 
     -- Titlebars
-    { rule_any = { type = { "dialog" } },
-      properties = { titlebars_enabled = true } },
-    { rule_any = { type = { "normal" } },
+    { rule_any = { type = { "normal", "dialog" } },
       properties = { titlebars_enabled = true } },
 }
 -- }}}
@@ -746,88 +745,30 @@ client.connect_signal("manage", function (c)
 end)
 
 -- Enable sloppy focus, so that focus follows mouse.
---client.connect_signal("mouse::enter", function(c)
---     c:emit_signal("request::activate", "mouse_enter", {raise = true})
---end)
+-- client.connect_signal("mouse::enter", function(c)
+--      c:emit_signal("request::activate", "mouse_enter", {raise = true})
+-- end)
 
 -- No border for maximized clients
---function border_adjust(c)
---    if c.maximized then -- no borders if only 1 client visible
---        c.border_width = 0
---    elseif #awful.screen.focused().clients > 1 then
---        c.border_width = beautiful.border_width
---        c.border_color = beautiful.border_focus
---    end
---end
+function border_adjust(c)
+    if c.maximized then -- no borders if only 1 client visible
+        c.border_width = 0
+    elseif #awful.screen.focused().clients > 1 then
+        c.border_width = beautiful.border_width
+        c.border_color = beautiful.border_focus
+    end
+end
 
-require("smart_borders"){
-	show_button_tooltips = false,
-        stealth = true,
-	button_positions = { "top" },
-	buttons = { "floating", "minimize", "maximize", "close" },
-
-	layout = "fixed",
-	button_ratio = 0.25,
-	align_horizontal = "center",
-	button_size = dpi(40),
-	button_floating_size = dpi(60),
-	button_close_size = dpi(60),
-	border_width = dpi(8),
-
-	color_close_normal = {
-		type = "linear",
-		from = { 0, 0 },
-		to = { 60, 0 },
-		stops = { { 0, "#fd8489" }, { 1, "#56666f" } }
-	},
-	color_close_focus = {
-		type = "linear",
-		from = { 0, 0 },
-		to = { 60, 0 },
-		stops = { { 0, "#fd8489" }, { 1, "#a1bfcf" } }
-	},
-	color_close_hover = {
-		type = "linear",
-		from = { 0, 0 },
-		to = { 60, 0 },
-		stops = { { 0, "#FF9EA3" }, { 1, "#a1bfcf" } }
-	},
-	color_floating_normal = {
-		type = "linear",
-		from = { 0, 0 },
-		to = { 40, 0 },
-		stops = { { 0, "#56666f" }, { 1, "#ddace7" } }
-	},
-	color_floating_focus = {
-		type = "linear",
-		from = { 0, 0 },
-		to = { 40, 0 },
-		stops = { { 0, "#a1bfcf" }, { 1, "#ddace7" } }
-	},
-	color_floating_hover = {
-		type = "linear",
-		from = { 0, 0 },
-		to = { 40, 0 },
-		stops = { { 0, "#a1bfcf" }, { 1, "#F7C6FF" } }
-	},
-
-	-- custom control example:
-	button_back = function(c)
-		-- set client as master
-		c:swap(awful.client.getmaster())
-	end
-}
-
---client.connect_signal("property::maximized", border_adjust)
---client.connect_signal("focus", border_adjust)
---client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+client.connect_signal("property::maximized", border_adjust)
+client.connect_signal("focus", border_adjust)
+client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 -- possible workaround for tag preservation when switching back to default screen:
 -- https://github.com/lcpz/awesome-copycats/issues/251
 -- }}}
 require("awesomewm-vim-tmux-navigator"){
-        up    = {modkey, "k"},
-        down  = {modkey, "j"},
-        left  = {modkey, "h"},
-        right = {modkey, "l"},
+        up    = {"k"},
+        down  = {"j"},
+        left  = {"h"},
+        right = {"l"},
     }

@@ -25,14 +25,14 @@ theme.wallpaper                                 = function(s)
   return os.getenv("HOME") .. "/Pictures/nier2bvertical.png"
 end
 
-theme.font                                      = "Fira Code Bold 11"
+theme.font                                      = "Fira Code Bold 10"
 theme.fg_normal                                 = "#FFFFFF"
 theme.fg_focus                                  = "#0099CC"
 theme.bg_focus                                  = "#303030"
 theme.bg_normal                                 = "#242424"
 theme.fg_urgent                                 = "#CC9393"
 theme.bg_urgent                                 = "#006B8E"
-theme.border_width                              = dpi(0)
+theme.border_width                              = dpi(4)
 theme.border_normal                             = "#252525"
 theme.border_focus                              = "#0099CC"
 theme.taglist_fg_focus                          = "#FFFFFF"
@@ -259,7 +259,7 @@ local networkwidget = wibox.container.margin(netbg, dpi(0), dpi(0), dpi(5), dpi(
 
 -- Weather
 theme.weather = lain.widget.weather({
-    city_id = 2643743, -- placeholder (London)
+    city_id = 2855328,
     notification_preset = { font = "Fira Code 9", position = "bottom_right" },
 })
 
@@ -286,7 +286,7 @@ local barcolor  = gears.color({
 
 function theme.at_screen_connect(s)
     -- Quake application
-    s.quake = lain.util.quake({ app = awful.util.terminal })
+    --s.quake = lain.util.quake({ app = awful.util.terminal })
     local is_vertical = s.geometry.width <= s.geometry.height
 
     -- If wallpaper is a function, call it with the screen
@@ -312,21 +312,32 @@ function theme.at_screen_connect(s)
 
     -- Create a taglist widget
     local fancy_taglist = require("fancy_taglist")
-    s.mytaglist = fancy_taglist.new({ screen = s })
+    s.mytaglist = fancy_taglist.new({
+      screen = s,
+      shape = gears.shape.rectangle,
+      shape_border_width = 5,
+      shape_border_color = theme.tasklist_bg_normal, align = "center"
+    })
 
     mytaglistcont = wibox.container.background(s.mytaglist, theme.bg_focus, gears.shape.rectangle)
     s.mytag = wibox.container.margin(mytaglistcont, dpi(0), dpi(0), dpi(0), dpi(0))
 
     -- Create a tasklist widget
-    s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, awful.util.tasklist_buttons, { bg_focus = theme.bg_focus, shape = gears.shape.rectangle, shape_border_width = 5, shape_border_color = theme.tasklist_bg_normal, align = "center" })
+    s.mytasklist = awful.widget.tasklist(s,
+      awful.widget.tasklist.filter.currenttags,
+      awful.util.tasklist_buttons, {
+        bg_focus = theme.bg_focus,
+        shape = gears.shape.rectangle,
+        shape_border_width = 5,
+        shape_border_color = theme.tasklist_bg_normal, align = "center" })
 
     -- Don't stretch the wallpaper vertically
     if is_vertical then
       gears.wallpaper.maximized(wallpaper, s, false)
-      s.mywibox = awful.wibar({ position = "bottom", screen = s, height = dpi(32) })
+      s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(32) })
     else
       gears.wallpaper.maximized(wallpaper, s, true)
-      s.mywibox = awful.wibar({ position = "bottom", screen = s, height = dpi(32) })
+      s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(32) })
     end
 
     -- Add widgets to the wibox

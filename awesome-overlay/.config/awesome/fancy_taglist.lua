@@ -36,8 +36,12 @@ local fancytasklist = function(cfg, tag_index)
 		buttons = cfg.tasklist_buttons,
 		widget_template = {
 			{
-				id = "clienticon",
-				widget = awful.widget.clienticon
+                          {
+                            id = "clienticon",
+			    widget = awful.widget.clienticon
+                          },
+                          margins = 5,
+                          widget = wibox.container.margin
 			},
 			layout = wibox.layout.stack,
 			create_callback = function(self, c, _, _)
