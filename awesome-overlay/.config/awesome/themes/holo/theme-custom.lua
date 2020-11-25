@@ -32,7 +32,7 @@ theme.bg_focus                                  = "#303030"
 theme.bg_normal                                 = "#242424"
 theme.fg_urgent                                 = "#CC9393"
 theme.bg_urgent                                 = "#006B8E"
-theme.border_width                              = dpi(4)
+theme.border_width                              = dpi(3)
 theme.border_normal                             = "#252525"
 theme.border_focus                              = "#0099CC"
 theme.taglist_fg_focus                          = "#FFFFFF"
@@ -320,7 +320,7 @@ function theme.at_screen_connect(s)
     })
 
     mytaglistcont = wibox.container.background(s.mytaglist, theme.bg_focus, gears.shape.rectangle)
-    s.mytag = wibox.container.margin(mytaglistcont, dpi(0), dpi(0), dpi(0), dpi(0))
+    s.mytag = wibox.container.margin(mytaglistcont, dpi(0), dpi(0), dpi(5), dpi(5))
 
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist(s,
@@ -345,6 +345,7 @@ function theme.at_screen_connect(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
+            first,
             mylauncher,
             s.mytag,
             spr_small,

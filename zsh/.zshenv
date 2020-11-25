@@ -6,7 +6,7 @@ export PROMPT_GEOMETRY_EXEC_TIME=true
 export QT_QPA_PLATFORMTHEME=qt5ct
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GOPATH=$HOME/git/go
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+export FZF_DEFAULT_COMMAND='ag --hidden --follow --ignore .git -g ""'
 
 # Configure my history
 HISTFILE=$HOME/.zhistory

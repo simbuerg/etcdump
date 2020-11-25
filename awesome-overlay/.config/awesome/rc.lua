@@ -5,17 +5,17 @@ local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, 
 local gears         = require("gears")
 local awful         = require("awful")
                       require("awful.autofocus")
-                      require("awful.remote")
 local wibox         = require("wibox")
 local machi         = require('layout-machi')
 local beautiful     = require("beautiful")
-local dpi           = require("beautiful.xresources").apply_dpi
 local naughty       = require("naughty")
 local lain          = require("lain")
+--local menubar       = require("menubar")
 local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
                       require("awful.hotkeys_popup.keys")
 local posix         = require("posix")
+local dpi           = require("beautiful.xresources").apply_dpi
 
 local my_table      = awful.util.table -- or gears.table -- 4.{0,1} compatibility
 -- }}}
@@ -47,19 +47,14 @@ end
 -- {{{ Autostart windowless processes
 local function run_once(cmd_arr)
     for _, cmd in ipairs(cmd_arr) do
-        findme = cmd
-        firstspace = cmd:find(" ")
-        if firstspace then
-            findme = cmd:sub(0, firstspace-1)
-        end
-        awful.spawn.with_shell(string.format("pgrep -u $USER -x %s > /dev/null || (%s)", findme, cmd))
+        awful.spawn.with_shell(string.format("pgrep -u $USER -fx '%s' > /dev/null || (%s)", cmd, cmd))
     end
 end
 
 -- run_once({ "unclutter -root" })
--- run_once({ "nm-applet --sm-disable &" })
-run_once({ "/usr/lib/polkit-kde-agent-1 &" })
-run_once({ "/usr/lib/polkit-kde-authentication-agent-1 &" })
+-- run_once({ "nm-applet", "--sm-disable", "&" })
+run_once({ "/usr/lib/polkit-kde-agent-1", "&" })
+run_once({ "/usr/lib/polkit-kde-authentication-agent-1", "&" })
 -- }}}
 
 -- {{{ set env vars
@@ -95,12 +90,15 @@ local chosen_theme = "holo"
 local modkey       = "Mod4"
 local altkey       = "Mod1"
 local terminal     = "alacritty"
+local vi_focus     = false -- vi-like client focus - https://github.com/lcpz/awesome-copycats/issues/275
+local cycle_prev   = true -- cycle trough all previous client or just the first -- https://github.com/lcpz/awesome-copycats/issues/274
 local editor       = os.getenv("EDITOR") or "vim"
 local gui_editor   = "code"
 local browser      = "vivaldi-stable"
+local scrlocker    = "i3lock"
+
 local screen_layouts = os.getenv("HOME") .. "/.screenlayout/"
 local pass_command = "rofi-pass --root" .. os.getenv("HOME") .. "/.password-store:" .. os.getenv("HOME") .. "/.password-store-zim"
-local scrlocker    = "i3lock"
 local known_layouts = {
   "laptop-only.sh",
   "office.sh",
@@ -164,7 +162,7 @@ awful.util.tasklist_buttons = my_table.join(
                 instance:hide()
                 instance = nil
             else
-                instance = awful.menu.clients({theme = {width = 250}})
+                instance = awful.menu.clients({theme = {width = dpi(250)}})
             end
         end
     end),
@@ -172,15 +170,15 @@ awful.util.tasklist_buttons = my_table.join(
     awful.button({ }, 5, function () awful.client.focus.byidx(-1) end)
 )
 
---lain.layout.termfair.nmaster           = 3
---lain.layout.termfair.ncol              = 1
---lain.layout.termfair.center.nmaster    = 3
---lain.layout.termfair.center.ncol       = 1
---lain.layout.cascade.tile.offset_x      = 2
---lain.layout.cascade.tile.offset_y      = 32
---lain.layout.cascade.tile.extra_padding = 5
---lain.layout.cascade.tile.nmaster       = 5
---lain.layout.cascade.tile.ncol          = 2
+lain.layout.termfair.nmaster           = 3
+lain.layout.termfair.ncol              = 1
+lain.layout.termfair.center.nmaster    = 3
+lain.layout.termfair.center.ncol       = 1
+lain.layout.cascade.tile.offset_x      = dpi(2)
+lain.layout.cascade.tile.offset_y      = dpi(32)
+lain.layout.cascade.tile.extra_padding = dpi(5)
+lain.layout.cascade.tile.nmaster       = 5
+lain.layout.cascade.tile.ncol          = 2
 
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme-custom.lua", os.getenv("HOME"), chosen_theme))
 --- {{{ Configure machi
@@ -197,7 +195,7 @@ local myawesomemenu = {
     { "quit", function() awesome.quit() end }
 }
 awful.util.mymainmenu = freedesktop.menu.build({
-    icon_size = beautiful.menu_height or 16,
+    icon_size = beautiful.menu_height or dpi(16),
     before = {
         { "Awesome", myawesomemenu, beautiful.awesome_icon },
         -- other triads can be put here
@@ -227,6 +225,17 @@ screen.connect_signal("property::geometry", function(s)
     end
 end)
 
+-- No borders when rearranging only 1 non-floating or maximized client
+screen.connect_signal("arrange", function (s)
+    local only_one = #s.tiled_clients == 1
+    for _, c in pairs(s.clients) do
+        if only_one and not c.floating or c.maximized then
+            c.border_width = 0
+        else
+            c.border_width = beautiful.border_width
+        end
+    end
+end)
 -- Create a wibox for each screen and add it
 awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) end)
 -- }}}
@@ -685,7 +694,7 @@ for i = 1, 9 do
     )
 end
 
-clientbuttons = my_table.join(
+clientbuttons = gears.table.join(
     awful.button({ }, 1, function (c)
         c:emit_signal("request::activate", "mouse_click", {raise = true})
     end),
@@ -715,16 +724,13 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
-                     maximized_vertical = false,
-                     maximized_horizontal = false,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen,
-                     size_hints_honor = false,
-                     titlebars_enabled = true
+                     size_hints_honor = false
      }
     },
 
     -- Titlebars
-    { rule_any = { type = { "normal", "dialog" } },
+    { rule_any = { type = { "dialog", "normal" } },
       properties = { titlebars_enabled = true } },
 }
 -- }}}
@@ -744,23 +750,60 @@ client.connect_signal("manage", function (c)
     end
 end)
 
--- Enable sloppy focus, so that focus follows mouse.
--- client.connect_signal("mouse::enter", function(c)
---      c:emit_signal("request::activate", "mouse_enter", {raise = true})
--- end)
-
--- No border for maximized clients
-function border_adjust(c)
-    if c.maximized then -- no borders if only 1 client visible
-        c.border_width = 0
-    elseif #awful.screen.focused().clients > 1 then
-        c.border_width = beautiful.border_width
-        c.border_color = beautiful.border_focus
+-- Add a titlebar if titlebars_enabled is set to true in the rules.
+client.connect_signal("request::titlebars", function(c)
+    -- Custom
+    if beautiful.titlebar_fun then
+        beautiful.titlebar_fun(c)
+        return
     end
-end
 
-client.connect_signal("property::maximized", border_adjust)
-client.connect_signal("focus", border_adjust)
+    -- Default
+    -- buttons for the titlebar
+    local buttons = my_table.join(
+        awful.button({ }, 1, function()
+            c:emit_signal("request::activate", "titlebar", {raise = true})
+            awful.mouse.client.move(c)
+        end),
+        awful.button({ }, 2, function() c:kill() end),
+        awful.button({ }, 3, function()
+            c:emit_signal("request::activate", "titlebar", {raise = true})
+            awful.mouse.client.resize(c)
+        end)
+    )
+
+    awful.titlebar(c, {size = dpi(16)}) : setup {
+        { -- Left
+            awful.titlebar.widget.iconwidget(c),
+            buttons = buttons,
+            layout  = wibox.layout.fixed.horizontal
+        },
+        { -- Middle
+            { -- Title
+                align  = "center",
+                widget = awful.titlebar.widget.titlewidget(c)
+            },
+            buttons = buttons,
+            layout  = wibox.layout.flex.horizontal
+        },
+        { -- Right
+            awful.titlebar.widget.floatingbutton (c),
+            awful.titlebar.widget.maximizedbutton(c),
+            awful.titlebar.widget.stickybutton   (c),
+            awful.titlebar.widget.ontopbutton    (c),
+            awful.titlebar.widget.closebutton    (c),
+            layout = wibox.layout.fixed.horizontal()
+        },
+        layout = wibox.layout.align.horizontal
+    }
+end)
+
+-- Enable sloppy focus, so that focus follows mouse.
+client.connect_signal("mouse::enter", function(c)
+    c:emit_signal("request::activate", "mouse_enter", {raise = vi_focus})
+end)
+
+client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 -- possible workaround for tag preservation when switching back to default screen:
