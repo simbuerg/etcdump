@@ -28,7 +28,8 @@ Plug 'dense-analysis/ale'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'petobens/poet-v'
+Plug 'vim-test/vim-test'
+" Plug 'petobens/poet-v'
 Plug 'intrntbrn/awesomewm-vim-tmux-navigator'
 
 call plug#end()

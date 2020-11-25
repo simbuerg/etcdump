@@ -13,7 +13,6 @@ zplug "sindresorhus/pure", use:pure.zsh, as:theme
 zplug "zsh-users/zsh-autosuggestions", use:zsh-autosuggestions.zsh, defer:3
 zplug "zsh-users/zsh-syntax-highlighting", use:zsh-syntax-highlighting.zsh
 zplug "willghatch/zsh-saneopt", use:saneopt.plugin.zsh
-zplug "/usr/lib/ruby/gems/2.6.0/gems/tmuxinator-1.1.4/completion/", use:tmuxinator.zsh, from:local
 zplug "/usr/share/fzf/", use:"*.zsh", from:local
 zplug "/usr/bin", use:virtualenvwrapper.sh, from:local
 zplug load

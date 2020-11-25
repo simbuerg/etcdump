@@ -16,7 +16,6 @@
     "window.restoreWindows": "all",
     "terminal.external.linuxExec": "kitty",
     "problems.decorations.enabled": true,
-    "editor.wordWrap": "bounded",
     "latex-workshop.view.outline.sections": [
         "chapter",
         "section",
@@ -32,7 +31,7 @@
     "git.autofetch": true,
     "git.confirmSync": false,
     "terminal.integrated.rendererType": "dom",
-    "workbench.colorTheme": "Monokai",
+    "workbench.colorTheme": "Panda Syntax",
     "workbench.colorCustomizations": {
         "settings.modifiedItemForeground": "#FF7042",
         "tab.unfocusedActiveBorder": "#fff0",
@@ -55,7 +54,7 @@
     "breadcrumbs.enabled": false,
     "vsicons.dontShowNewVersionMessage": true,
     "workbench.iconTheme": "eq-material-theme-icons",
-    "editor.fontFamily": "'Fira Code', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+    "editor.fontFamily": "'Iosevka Custom', 'Fira Code', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "python.venvPath": "~/.virtualenvs",
     "autoDocstring.docstringFormat": "google",
     "autoDocstring.startOnNewLine": true,
@@ -64,5 +63,27 @@
     "go.formatTool": "gofmt",
     "go.useLanguageServer": true,
     "html.format.wrapLineLength": 0,
-    "pretty-formatter.endComma": "always"
+    "pretty-formatter.endComma": "always",
+    "vs-kubernetes": {
+        "vs-kubernetes.minikube-path.linux": "/home/simbuerg/.vs-kubernetes/tools/minikube/linux-amd64/minikube",
+        "vs-kubernetes.helm-path.linux": "/home/simbuerg/.vs-kubernetes/tools/helm/linux-amd64/helm",
+        "vs-kubernetes.draft-path.linux": "/home/simbuerg/.vs-kubernetes/tools/draft/linux-amd64/draft"
+    },
+    "vim.enableNeovim": true,
+    "githubIssues.queries": [
+
+        {
+            "label": "My Issues",
+            "query": "default"
+        },
+        {
+            "label": "Created Issues",
+            "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
+        },
+        {
+            "label": "Open Issues",
+            "query": "state:open repo:${owner}/${repository} sort:created-desc"
+        }
+    ],
+    "editor.fontSize": 15
 }
