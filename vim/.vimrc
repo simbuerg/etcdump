@@ -34,12 +34,13 @@ Plug 'intrntbrn/awesomewm-vim-tmux-navigator'
 
 call plug#end()
 
-source '~/.vim/vimrc.ale.vim'
-source '~/.vim/vimrc.coc.vim'
-source '~/.vim/vimrc.fzf.vim'
-source '~/.vim/vimrc.filetypes.vim'
+runtime vimrc.ale.vim
+runtime vimrc.coc.vim
+runtime vimrc.fzf.vim
+runtime vimrc.filetypes.vim
+
 " COC overrides this:
-" source ~/.vim/vimrc.ycm.vim
+" source $HOME . '/.vim/vimrc.ycm.vim'
 
 """
 " Setup Theme & UI
