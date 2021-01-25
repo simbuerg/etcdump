@@ -98,7 +98,6 @@ linkto $HOME/.local
 linkto $HOME/git/go
 linkto $HOME/go
 linkto $HOME/opt/dmsw
-linkto $HOME/.gem/ruby/2.7.0
 linkto $HOME/.node_modules/
 
 gpgconf --launch gpg-agent
