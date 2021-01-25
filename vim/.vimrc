@@ -34,6 +34,9 @@ Plug 'intrntbrn/awesomewm-vim-tmux-navigator'
 
 call plug#end()
 
+" Set <Leader> to whitespace.
+let mapleader = " "
+
 runtime vimrc.ale.vim
 runtime vimrc.coc.vim
 runtime vimrc.fzf.vim
@@ -124,7 +127,9 @@ set shortmess=actI
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.Recently (>= patch 8.1.1564) vim can merge
 " signcolumn and number column into one
-set signcolumn=number
+if !has('nvim')
+  set signcolumn=number
+endif
 
 " Show line numbers
 set number
@@ -173,7 +178,9 @@ set ruler
 set hidden
 
 " Configure :mksession store options 
-set ssop=blank,buffers,curdir,help,tabpages,winsize,terminal
+if !has('nvim')
+  set ssop=blank,buffers,curdir,help,tabpages,winsize,terminal
+endif
 
 " Configure completion:
 "   menu, menuone: Use a popup menu to show the possible completions
@@ -190,9 +197,6 @@ set wildignore+=build,build-debug,*.a,*.so,*.o,*.obj,.git
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" Set <Leader> to whitespace
-let mapleader = " "
 
 " Useful macros for cleaning up code to conform to LLVM coding guidelines
 " Delete trailing whitespace and tabs at the end of each line

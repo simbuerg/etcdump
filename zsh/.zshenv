@@ -33,3 +33,9 @@ alias ta="tmux attach -t"
 alias tn="tmux new-session -t"
 alias ll="ls -licsah --group-directories-first --color=auto"
 
+alias ll="exa --group-directories-first"
+alias ls="exa -l --group-directories-first"
+alias la="exa -a --group-directories-first"
+alias lal="exa -al --group-directories-first"
+
+eval "$(pyenv init --no-rehash -)"
