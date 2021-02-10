@@ -1,5 +1,7 @@
 """ Configure the fzf plugin
 
+let g:fzf_layout = { 'down': '40%' }
+
 """
 " Keybindings
 """

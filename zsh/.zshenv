@@ -37,5 +37,3 @@ alias ll="exa --group-directories-first"
 alias ls="exa -l --group-directories-first"
 alias la="exa -a --group-directories-first"
 alias lal="exa -al --group-directories-first"
-
-eval "$(pyenv init --no-rehash -)"
