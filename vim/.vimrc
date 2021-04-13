@@ -31,6 +31,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'vim-test/vim-test'
 " Plug 'petobens/poet-v'
 Plug 'intrntbrn/awesomewm-vim-tmux-navigator'
+Plug 'easymotion/vim-easymotion'
 
 call plug#end()
 
@@ -53,11 +54,14 @@ runtime vimrc.filetypes.vim
 if !has("gui_running")
   set timeoutlen=250
   set ttimeoutlen=0
+  set mouse=
   augroup FastEscape
     autocmd!
     au InsertEnter * set timeoutlen=0
     au InsertLeave * set timeoutlen=500
   augroup END
+else
+  set mouse=a
 endif
 
 " Use more than 16 colors.
@@ -228,5 +232,8 @@ nnoremap <F8> :Make! <CR>
 " nnoremap <silent> <DOWN>          :bnext<CR>
 " nnoremap <silent> <LEFT>          :cprev<CR>
 " nnoremap <silent> <RIGHT>         :cnext<CR>
+
+nnoremap <leader>r :w<CR>:!tmux send-keys -t {last} C-p C-j <CR><CR>
+nnoremap <leader>R :w<CR>:!tmux send-keys -t {last}. C-p C-j <CR><CR>
 
 tnoremap <Esc> <C-\><C-n>
