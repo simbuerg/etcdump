@@ -17,7 +17,7 @@ font:
     family: Hasklig
     # Style can be specified to pick a specific face.
     style: Italic
-  size: 12
+  size: 14
   offset:
     x: 0
     y: 4 
@@ -28,27 +28,25 @@ font:
 colors:
   # Default Colors
   primary:
-    background: '0x1a2026'
-    foreground: '0xffffff'
+    background: '0x212121'
+    foreground: '0xf1f1f1'
   # Normal colors
   normal:
-    black:   '0x242d35'
-    red:     '0xfb6396'
-    green:   '0x94cf95'
-    yellow:  '0xf692b2'
-    blue:    '0x6ec1d6'
-    magenta: '0xcd84c8'
-    cyan:    '0x7fe4d2'
-    white:   '0xffffff'
+    black:   '0x212121'
+    red:     '0xc30771'
+    green:   '0x10a778'
+    yellow:  '0xa89c14'
+    blue:    '0x008ec4'
+    magenta: '0x523c79'
+    cyan:    '0x20a5ba'
+    white:   '0xe0e0e0'
   # Bright colors
   bright:
-    black:   '0x526170'
-    red:     '0xf92d72'
-    green:   '0x6ccb6e'
-    yellow:  '0xf26190'
-    blue:    '0x4cb9d6'
-    magenta: '0xc269bc'
-    cyan:    '0x58d6bf'
-    white:   '0xf4f5f2'
-
-# color_end
+    black:   '0x818181'
+    red:     '0xfb007a'
+    green:   '0x5fd7af'
+    yellow:  '0xf3e430'
+    blue:    '0x20bbfc'
+    magenta: '0x6855de'
+    cyan:    '0x4fb8cc'
+    white:   '0xf1f1f1'
