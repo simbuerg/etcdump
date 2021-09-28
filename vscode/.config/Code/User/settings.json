@@ -1,6 +1,5 @@
 {
     "editor.minimap.enabled": false,
-    "window.zoomLevel": 1,
     "extensions.ignoreRecommendations": false,
     "vim.useSystemClipboard": true,
     "vim.hlsearch": true,
@@ -42,7 +41,6 @@
     "python.pythonPath": "/usr/bin/python3",
     "workbench.activityBar.visible": true,
     "latex-workshop.latex.autoBuild.run": "never",
-    "window.menuBarVisibility": "toggle",
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "workbench.editor.highlightModifiedTabs": true,
@@ -65,7 +63,8 @@
     "vs-kubernetes": {
         "vs-kubernetes.minikube-path.linux": "/home/simbuerg/.vs-kubernetes/tools/minikube/linux-amd64/minikube",
         "vs-kubernetes.helm-path.linux": "/home/simbuerg/.vs-kubernetes/tools/helm/linux-amd64/helm",
-        "vs-kubernetes.draft-path.linux": "/home/simbuerg/.vs-kubernetes/tools/draft/linux-amd64/draft"
+        "vs-kubernetes.draft-path.linux": "/home/simbuerg/.vs-kubernetes/tools/draft/linux-amd64/draft",
+        "vscode-kubernetes.minikube-path.linux": "/home/simbuerg/.vs-kubernetes/tools/minikube/linux-amd64/minikube"
     },
     "vim.enableNeovim": true,
     "githubIssues.queries": [
@@ -83,5 +82,19 @@
             "query": "state:open repo:${owner}/${repository} sort:created-desc"
         }
     ],
-    "editor.fontSize": 15
+    "editor.fontSize": 15,
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "git.ignoreLegacyWarning": true,
+    "workbench.editorAssociations": {
+        "*.pdf": "default",
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
+    "go.toolsManagement.autoUpdate": true,
+    "window.zoomLevel": 1,
+    "redhat.telemetry.enabled": true
 }
