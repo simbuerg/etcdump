@@ -22,3 +22,6 @@
 [submodule "awesome-vim-tmux-navigator/.config/awesome/awesomewm-vim-tmux-navigator"]
 	path = awesome-vim-tmux-navigator/.config/awesome/awesomewm-vim-tmux-navigator
 	url = https://github.com/intrntbrn/awesomewm-vim-tmux-navigator
+[submodule "awesome-bling/.config/awesome/bling"]
+	path = awesome-bling/.config/awesome/bling
+	url = https://github.com/Nooo37/bling.git
