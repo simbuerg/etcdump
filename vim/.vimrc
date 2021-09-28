@@ -2,7 +2,8 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'edkolev/tmuxline.vim'
+" Plug 'edkolev/tmuxline.vim'
+Plug 'morhetz/gruvbox'
 
 " Plug 'Valloric/YouCompleteMe', { 'for' : ['go', 'c', 'cpp', 'python'], 'do' : './install.py --go-completer --clangd-completer' }
 "autocmd! User YouCompleteMe call youcompleteme#Enable()
@@ -32,6 +33,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'petobens/poet-v'
 Plug 'intrntbrn/awesomewm-vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
+Plug 'numirias/semshi', { 'do': 'UpdateRemotePlugins' }
 
 call plug#end()
 
@@ -42,9 +44,6 @@ runtime vimrc.ale.vim
 runtime vimrc.coc.vim
 runtime vimrc.fzf.vim
 runtime vimrc.filetypes.vim
-
-" COC overrides this:
-" source $HOME . '/.vim/vimrc.ycm.vim'
 
 """
 " Setup Theme & UI
@@ -71,11 +70,12 @@ if exists('+termguicolors')
   set termguicolors
 endif
 
-" The pencil theme
-colorscheme pencil
-let g:pencil_terminal_italics = 1
-let g:pencil_gutter_color = 1
-let g:airline_theme = 'pencil'
+colorscheme gruvbox
+let g:airline_theme='gruvbox'
+
+" let g:pencil_terminal_italics = 1
+" let g:pencil_gutter_color = 1
+" let g:airline_theme = 'pencil'
 set background=dark
 
 " Highlight syntax in programming languages
@@ -237,3 +237,11 @@ nnoremap <leader>r :w<CR>:!tmux send-keys -t {last} C-p C-j <CR><CR>
 nnoremap <leader>R :w<CR>:!tmux send-keys -t {last}. C-p C-j <CR><CR>
 
 tnoremap <Esc> <C-\><C-n>
+
+autocmd User EasyMotionPromptBegin silent! CocDisable
+autocmd User EasyMotionPromptEnd silent! CocEnable
+
+map <Leader>l <Plug>(easymotion-lineforward)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>h <Plug>(easymotion-linebackward)
