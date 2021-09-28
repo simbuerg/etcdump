@@ -44,8 +44,9 @@ root: ~/src/polyjit/benchbuild
 
 windows:
   - editor:
-      layout: main-horizontal
+      layout: main-vertical
       panes:
-        - vim
-        - workon benchbuild
+        - source:
+            - workon benchbuild
+            - nvim
   - git: tig
