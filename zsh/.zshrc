@@ -9,7 +9,8 @@ ZSH_AUTOSUGGEST_USE_ASYNC=1
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 # zplug "simbuerg/3fa2cf910d40b96a84e36affc361254a", from:gist, use:bindkeys.zsh
 zplug "mafredri/zsh-async"
-zplug "sindresorhus/pure", use:pure.zsh, as:theme
+# zplug "sindresorhus/pure", use:pure.zsh, as:theme
+zplug "spaceship-prompt/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
 zplug "zsh-users/zsh-autosuggestions", use:zsh-autosuggestions.zsh, defer:3
 zplug "zsh-users/zsh-syntax-highlighting", use:zsh-syntax-highlighting.zsh
 zplug "willghatch/zsh-saneopt", use:saneopt.plugin.zsh
