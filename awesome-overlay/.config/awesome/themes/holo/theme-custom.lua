@@ -20,7 +20,7 @@ theme.default_dir                               = require("awful.util").get_them
 theme.icon_dir                                  = os.getenv("HOME") .. "/.config/awesome/themes/holo/icons"
 theme.wallpaper                                 = function(s)
   if s.geometry.width >= s.geometry.height then
-    return os.getenv("HOME") .. "/Pictures/Wallpaper/bgnier.jpg"
+    return os.getenv("HOME") .. "/Pictures/Wallpaper/Variety/24TKlHV.jpg"
   end
   return os.getenv("HOME") .. "/Pictures/nier2bvertical.png"
 end

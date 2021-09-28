@@ -6,7 +6,6 @@ local gears         = require("gears")
 local awful         = require("awful")
                       require("awful.autofocus")
 local wibox         = require("wibox")
-local machi         = require('layout-machi')
 local beautiful     = require("beautiful")
 local naughty       = require("naughty")
 local lain          = require("lain")
@@ -16,6 +15,7 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
                       require("awful.hotkeys_popup.keys")
 local posix         = require("posix")
 local dpi           = require("beautiful.xresources").apply_dpi
+local bling         = require("bling")
 
 local my_table      = awful.util.table -- or gears.table -- 4.{0,1} compatibility
 -- }}}
@@ -109,12 +109,18 @@ local known_layouts = {
 awful.util.terminal = terminal
 awful.util.tagnames = { "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 
-local layout = machi.layout.create({ name = "1" })
+-- local layout = machi.layout.create({ name = "1" })
 awful.layout.layouts = {
-   machi.default_layout,
+   -- machi.default_layout,
    awful.layout.suit.floating,
    awful.layout.suit.tile,
-   awful.layout.suit.tile.left
+   awful.layout.suit.tile.left,
+   bling.layout.mstab,
+   bling.layout.centered,
+   bling.layout.vertical,
+   bling.layout.horizontal,
+   bling.layout.equalarea,
+   bling.layout.deck
 }
 
 awful.util.taglist_buttons = my_table.join(
@@ -182,10 +188,9 @@ lain.layout.cascade.tile.ncol          = 2
 
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme-custom.lua", os.getenv("HOME"), chosen_theme))
 --- {{{ Configure machi
-beautiful.layout_machi = machi.get_icon()
+-- beautiful.layout_machi = machi.get_icon()
 --- }}}
 
--- }}}
 -- {{{ Menu
 local myawesomemenu = {
     { "hotkeys", function() return false, hotkeys_popup.show_help end },
