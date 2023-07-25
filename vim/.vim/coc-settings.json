@@ -1,0 +1,14 @@
+{
+  "python": {
+    "analysis": {
+      "typeCheckingMode": "strict"
+    },
+    "formatting": {
+      "provider": "yapf"
+    },
+    "linting": {
+      "mypyEnabled": "true",
+      "pylintEnabled": "true"
+    }
+  }
+}
