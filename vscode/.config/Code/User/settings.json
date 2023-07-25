@@ -13,7 +13,7 @@
     "workbench.tips.enabled": false,
     "workbench.startupEditor": "none",
     "window.restoreWindows": "all",
-    "terminal.external.linuxExec": "kitty",
+    "terminal.external.linuxExec": "alacritty",
     "problems.decorations.enabled": true,
     "latex-workshop.view.outline.sections": [
         "chapter",
@@ -30,7 +30,7 @@
     "git.autofetch": true,
     "git.confirmSync": false,
     "terminal.integrated.rendererType": "dom",
-    "workbench.colorTheme": "Panda Syntax",
+    "workbench.colorTheme": "Horizon",
     "workbench.colorCustomizations": {
         "settings.modifiedItemForeground": "#FF7042",
         "tab.unfocusedActiveBorder": "#fff0",
@@ -47,7 +47,7 @@
     "workbench.settings.enableNaturalLanguageSearch": false,
     "workbench.settings.useSplitJSON": true,
     "vim.foldfix": true,
-    "editor.renderFinalNewline": true,
+    "editor.renderFinalNewline": "on",
     "breadcrumbs.enabled": false,
     "vsicons.dontShowNewVersionMessage": true,
     "workbench.iconTheme": "eq-material-theme-icons",
@@ -64,7 +64,9 @@
         "vs-kubernetes.minikube-path.linux": "/home/simbuerg/.vs-kubernetes/tools/minikube/linux-amd64/minikube",
         "vs-kubernetes.helm-path.linux": "/home/simbuerg/.vs-kubernetes/tools/helm/linux-amd64/helm",
         "vs-kubernetes.draft-path.linux": "/home/simbuerg/.vs-kubernetes/tools/draft/linux-amd64/draft",
-        "vscode-kubernetes.minikube-path.linux": "/home/simbuerg/.vs-kubernetes/tools/minikube/linux-amd64/minikube"
+        "vscode-kubernetes.minikube-path.linux": "/home/simbuerg/.vs-kubernetes/tools/minikube/linux-amd64/minikube",
+        "vs-kubernetes.crd-code-completion": "enabled",
+        "vs-kubernetes.minikube-show-information-expiration": "2023-08-09T11:29:22.593Z"
     },
     "vim.enableNeovim": true,
     "githubIssues.queries": [
@@ -83,18 +85,22 @@
         }
     ],
     "editor.fontSize": 15,
-    "files.exclude": {
-        "**/.classpath": true,
-        "**/.project": true,
-        "**/.settings": true,
-        "**/.factorypath": true
-    },
-    "git.ignoreLegacyWarning": true,
-    "workbench.editorAssociations": {
-        "*.pdf": "default",
-        "*.ipynb": "jupyter.notebook.ipynb"
-    },
     "go.toolsManagement.autoUpdate": true,
-    "window.zoomLevel": 1,
-    "redhat.telemetry.enabled": true
+    "redhat.telemetry.enabled": false,
+    "cmake.configureOnOpen": false,
+    "pgFormatter.formatType": true,
+    "pgFormatter.wrapLimit": 100,
+    "pgsql.format.alignColumnDefinitionsInColumns": true,
+    "pgsql.format.placeSelectStatementReferencesOnNewLine": true,
+    "[sql]": {
+        "editor.defaultFormatter": "adpyke.vscode-sql-formatter"
+    },
+    "diffEditor.renderSideBySide": false,
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "azure.tenant": "4477f46b-804e-457b-a634-30cd5fcf5daa",
+    "git.openRepositoryInParentFolders": "always",
+    "window.zoomLevel": -1
 }
