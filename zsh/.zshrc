@@ -1,22 +1,18 @@
 [[ $- != *i* ]] && return
 
-source ~/.zplug/init.zsh
+source ~/.znap/zsh-snap/znap.zsh
+
+znap prompt sindresorhus/pure
+
+znap source zsh-users/zsh-autosuggestions
+znap source zsh-users/zsh-syntax-highlighting
+znap source willghatch/zsh-saneopt
+
+znap fpath _kubectl 'kubectl completion zsh'
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#414141"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_ASYNC=1
-
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-# zplug "simbuerg/3fa2cf910d40b96a84e36affc361254a", from:gist, use:bindkeys.zsh
-zplug "mafredri/zsh-async"
-# zplug "sindresorhus/pure", use:pure.zsh, as:theme
-zplug "spaceship-prompt/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
-zplug "zsh-users/zsh-autosuggestions", use:zsh-autosuggestions.zsh, defer:3
-zplug "zsh-users/zsh-syntax-highlighting", use:zsh-syntax-highlighting.zsh
-zplug "willghatch/zsh-saneopt", use:saneopt.plugin.zsh
-zplug "/usr/share/fzf/", use:"*.zsh", from:local
-zplug "/usr/bin", use:virtualenvwrapper.sh, from:local
-zplug load
 
 bindkey -e
 
@@ -77,22 +73,8 @@ function linkto() {
   export undo_ld_library_path
 }
 
-function Xrandr() {
-  case "$1" in
-    office)
-      sh ~/.screenlayout/office.sh
-      ;;
-    beamer)
-      sh ~/.screenlayout/beamer_mirror_1024.sh
-      ;;
-    home)
-      xrandr --output DP-1 --auto \
-             --output LVDS-1 --off
-      ;;
-    *)
-      sh ~/.screenlayout/laptop-only.sh
-      ;;
-  esac
+function zshaddhistory() {
+    echo "${1%%$'\n'}⋮${PWD}   " >> ~/.zsh_history_ext
 }
 
 linkto $HOME/.local
@@ -101,6 +83,8 @@ linkto $HOME/go
 linkto $HOME/opt/dmsw
 linkto $HOME/.node_modules/
 
+# [ -n "$SSH_AUTH_SOCK" ] && gpgconf --create-socketdir
+# [ -n "$SSH_AUTH_SOCK" ] || gpgconf --launch gpg-agent
 gpgconf --launch gpg-agent
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
