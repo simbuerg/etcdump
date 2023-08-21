@@ -15,7 +15,7 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
                       require("awful.hotkeys_popup.keys")
 local posix         = require("posix")
 local dpi           = require("beautiful.xresources").apply_dpi
-local bling         = require("bling")
+--local bling         = require("bling")
 
 local my_table      = awful.util.table -- or gears.table -- 4.{0,1} compatibility
 -- }}}
@@ -109,13 +109,6 @@ local known_layouts = {
 awful.util.terminal = terminal
 awful.util.tagnames = { "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 
-local layout = machi.layout.create({ name = "1" })
-awful.layout.layouts = {
-   machi.default_layout,
-   awful.layout.suit.floating,
-   awful.layout.suit.tile,
-   awful.layout.suit.tile.left
-}
 awful.util.taglist_buttons = my_table.join(
     awful.button({ }, 1, function(t) t:view_only() end),
     awful.button({ modkey }, 1, function(t)
@@ -185,14 +178,13 @@ beautiful.init(string.format("%s/.config/awesome/themes/%s/theme-custom.lua", os
 --- }}}
 
 --- {{{ Configure layouts
-local layout = machi.layout.create({ name = "1" })
-awful.layout.layouts = {
-   awful.layout.suit.tile,
-   awful.layout.suit.tile.left,
-   awful.layout.suit.tile.bottom,
-   awful.layout.suit.tile.top,
-   awful.layout.suit.floating
-}
+--awful.layout.layouts = {
+--   awful.layout.suit.tile,
+--   awful.layout.suit.tile.left,
+--   awful.layout.suit.tile.bottom,
+--   awful.layout.suit.tile.top,
+--   awful.layout.suit.floating
+--}
 -- {{{ Menu
 local myawesomemenu = {
     { "hotkeys", function() return false, hotkeys_popup.show_help end },
