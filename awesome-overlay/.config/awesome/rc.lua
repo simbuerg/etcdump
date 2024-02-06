@@ -53,8 +53,9 @@ end
 
 -- run_once({ "unclutter -root" })
 -- run_once({ "nm-applet", "--sm-disable", "&" })
-run_once({ "/usr/lib/polkit-kde-authentication-agent-1" })
--- run_once({ "/usr/bin/picom" })
+run_once({ "/usr/lib/polkit-kde-agent-1", "&" })
+run_once({ "/usr/lib/polkit-kde-authentication-agent-1", "&" })
+run_once({ "/usr/bin/picom", "&" })
 -- }}}
 
 -- {{{ set env vars
@@ -108,6 +109,12 @@ local known_layouts = {
 
 awful.util.terminal = terminal
 awful.util.tagnames = { "1", "2", "3", "4", "5", "6", "7", "8", "9"}
+
+awful.layout.layouts = {
+   awful.layout.suit.tile,
+   awful.layout.suit.tile.left,
+   awful.layout.suit.floating
+}
 
 awful.util.taglist_buttons = my_table.join(
     awful.button({ }, 1, function(t) t:view_only() end),
@@ -177,14 +184,6 @@ beautiful.init(string.format("%s/.config/awesome/themes/%s/theme-custom.lua", os
 -- beautiful.layout_machi = machi.get_icon()
 --- }}}
 
---- {{{ Configure layouts
---awful.layout.layouts = {
---   awful.layout.suit.tile,
---   awful.layout.suit.tile.left,
---   awful.layout.suit.tile.bottom,
---   awful.layout.suit.tile.top,
---   awful.layout.suit.floating
---}
 -- {{{ Menu
 local myawesomemenu = {
     { "hotkeys", function() return false, hotkeys_popup.show_help end },
@@ -601,7 +600,7 @@ globalkeys = my_table.join(
               {description = "run prompt", group = "launcher"})
 )
 
-local clientkeys = my_table.join(
+clientkeys = my_table.join(
     awful.key({ altkey, "Shift"   }, "m",      lain.util.magnify_client,
               {description = "magnify client", group = "client"}),
     awful.key({ modkey,           }, "f",
@@ -693,7 +692,7 @@ for i = 1, 9 do
     )
 end
 
-local clientbuttons = gears.table.join(
+clientbuttons = gears.table.join(
     awful.button({ }, 1, function (c)
         c:emit_signal("request::activate", "mouse_click", {raise = true})
     end),
@@ -716,42 +715,34 @@ root.keys(globalkeys)
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
-        properties = { border_width = beautiful.border_width,
-                       border_color = beautiful.border_normal,
-                       focus = awful.client.focus.filter,
-                       raise = true,
-                       keys = clientkeys,
-                       buttons = clientbuttons,
-                       screen = awful.screen.preferred,
-                       placement = awful.placement.no_overlap+awful.placement.no_offscreen,
-                       size_hints_honor = false
-                     },
+      properties = { border_width = beautiful.border_width,
+                     border_color = beautiful.border_normal,
+                     focus = awful.client.focus.filter,
+                     raise = true,
+                     keys = clientkeys,
+                     buttons = clientbuttons,
+                     screen = awful.screen.preferred,
+                     placement = awful.placement.no_overlap+awful.placement.no_offscreen,
+                     size_hints_honor = false
+     }
     },
 
-    { rule = { role = "GtkFileChooserDialog" },
-        properties = { floating = true,
-                       ontop = true
-                     },
-
-        callback = function (c)
-          awful.placement.centered(c, nil)
-        end
+    { rule = { class = "zoom" }, properties = {
+        floating = true,
+        tag = "8"
+      }
     },
-
-    { rule = { class = "qtpass" },
-        properties = { floating = true,
-                       raise = true,
-                       screen = awful.screen.preferred,
-                       placement = awful.placement.no_overlap+awful.placement.no_offscreen,
-                       size_hints_honor = true
-                     },
+    { rule = { class = "evolution" }, properties = {
+        floating = true,
+        tag = "9"
+      }
     },
 
     -- Titlebars
     { rule_any = { type = { "dialog", "normal" } },
-        properties = { titlebars_enabled = false
-                     },
-    },
+      properties = {
+        titlebars_enabled = true,
+      } },
 }
 -- }}}
 

@@ -29,11 +29,15 @@ Plug 'dense-analysis/ale'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build', 'branch': 'main' }
+Plug 'iamcco/coc-diagnostic', {'do': 'yarn install --frozen-lockfile && yarn build', 'branch': 'master'}
+
 " Plug 'vim-test/vim-test'
 " Plug 'petobens/poet-v'
 Plug 'intrntbrn/awesomewm-vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
-Plug 'numirias/semshi', { 'do': 'UpdateRemotePlugins' }
+" Plug 'numirias/semshi', { 'do': 'UpdateRemotePlugins' }
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call plug#end()
 
@@ -201,6 +205,12 @@ set wildignore+=build,build-debug,*.a,*.so,*.o,*.obj,.git
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+
+" if has('nvim')
+"   set foldmethod=expr
+"   set foldexpr=nvim_treesitter#foldexpr()
+" endif
 
 " Useful macros for cleaning up code to conform to LLVM coding guidelines
 " Delete trailing whitespace and tabs at the end of each line

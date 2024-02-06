@@ -82,9 +82,16 @@ linkto $HOME/git/go
 linkto $HOME/go
 linkto $HOME/opt/dmsw
 linkto $HOME/.node_modules/
+linkto $HOME/.yarn/
 
 # [ -n "$SSH_AUTH_SOCK" ] && gpgconf --create-socketdir
 # [ -n "$SSH_AUTH_SOCK" ] || gpgconf --launch gpg-agent
 gpgconf --launch gpg-agent
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+tmux-window-name() {
+	($TMUX_PLUGIN_MANAGER_PATH/tmux-window-name/scripts/rename_session_windows.py &)
+}
+
+add-zsh-hook chpwd tmux-window-name

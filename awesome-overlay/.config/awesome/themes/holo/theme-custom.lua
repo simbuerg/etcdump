@@ -311,13 +311,7 @@ function theme.at_screen_connect(s)
                            awful.button({}, 5, function () awful.layout.inc(-1) end)))
 
     -- Create a taglist widget
-    local fancy_taglist = require("fancy_taglist")
-    s.mytaglist = fancy_taglist.new({
-      screen = s,
-      shape = gears.shape.rectangle,
-      shape_border_width = 5,
-      shape_border_color = theme.tasklist_bg_normal, align = "center"
-    })
+    s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, awful.util.taglist_buttons, { bg_focus = barcolor })
 
     mytaglistcont = wibox.container.background(s.mytaglist, theme.bg_focus, gears.shape.rectangle)
     s.mytag = wibox.container.margin(mytaglistcont, dpi(0), dpi(0), dpi(5), dpi(5))
