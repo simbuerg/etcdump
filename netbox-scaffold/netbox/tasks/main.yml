@@ -1,0 +1,132 @@
+---
+- name: Provide dependencies for NetBox
+  ansible.builtin.package:
+    name: "{{ netbox_package_dependencies }}"
+    state: present
+
+- name: Provide dependencies for LDAP
+  ansible.builtin.package:
+    name: "{{ netbox_ldap_package_dependencies }}"
+    state: present
+
+- name: Checkout NetBox community reports
+  ansible.builtin.git:
+    repo: "{{ netbox_git_repo_community_reports }}"
+    dest: "{{ netbox_prefix_community_reports }}"
+    update: true
+
+- name: Make sure we have a netbox user
+  ansible.builtin.user:
+    name: "{{ netbox_system_user }}"
+    group: "{{ netbox_system_user }}"
+    system: true
+
+- name: Download selected release of netbox
+  ansible.builtin.get_url:
+    url: "{{ netbox_url }}/{{ netbox_release }}"
+    dest: "/tmp/netbox-{{ netbox_release }}"
+
+- name: Unpack netbox release
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "/tmp/netbox-{{ netbox_release }}"
+    dest: /opt
+    owner: netbox
+    group: netbox
+
+- name: Link to active netbox release
+  ansible.builtin.file:
+    state: link
+    path: "{{ netbox_prefix }}"
+    src: "/opt/{{ netbox_active_release }}"
+
+- name: Persist local requirements for installation
+  ansible.builtin.lineinfile:
+    path: "{{ netbox_prefix }}/local_requirements.txt"
+    line: "{{ item }}"
+    create: true
+  loop: "{{ netbox_custom_python }}"
+
+#- name: persist local requirements for installation (plugins)
+#  lineinfile:
+#    path: "{{ netbox_prefix }}/local_requirements.txt"
+#    line: "{{ item.name }}"
+#  loop: "{{ netbox_plugins }}"
+
+- name: Link wanted reports
+  become_user: netbox
+  ansible.builtin.file:
+    state: link
+    path: "/opt/netbox/netbox/reports/{{ item | basename }}"
+    src: "/opt/netbox-community-reports/{{ item }}"
+  loop:
+    - reports/ipam-reports/ip-check-prefix.py
+    - reports/ipam-reports/ip-duplicate.py
+    - reports/ipam-reports/ip-primary-find.py
+    - reports/ipam-reports/ip-primary-missing.py
+    - reports/virtualization-reports/vm_counts.py
+
+- name: Copy our custom reports
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/opt/netbox/netbox/reports/{{ item | basename }}"
+  loop:
+    - reports/ip-duplicate-all.py
+
+- name: Deploy template config
+  ansible.builtin.template:
+    src: configuration.py.j2
+    dest: /opt/netbox/netbox/netbox/configuration.py
+    owner: "{{ netbox_system_user }}"
+    group: "{{ netbox_system_user }}"
+    mode: '0640'
+
+- name: Deploy ldap config
+  ansible.builtin.template:
+    src: ldap_config.py.j2
+    dest: /opt/netbox/netbox/netbox/ldap_config.py
+    owner: "{{ netbox_system_user }}"
+    group: "{{ netbox_system_user }}"
+    mode: '0640'
+
+- name: Make sure gunicorn has its config
+  ansible.builtin.template:
+    src: gunicorn_config.py.j2
+    dest: /opt/netbox/gunicorn.py
+    owner: "{{ netbox_system_user }}"
+    group: "{{ netbox_system_user }}"
+
+- name: Setup netbox inside a virtualenv
+  ansible.builtin.command: "/usr/bin/bash upgrade.sh"
+  args:
+    chdir: "{{ netbox_prefix }}"
+
+- name: Deploy systemd services
+  ansible.builtin.copy:
+    remote_src: true
+    src: "{{ netbox_prefix }}/contrib/{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+  loop:
+    - netbox.service
+    - netbox-rq.service
+
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Start netbox
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - netbox
+    - netbox-rq
+
+- name: Restart netbox
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: restarted
+  loop:
+    - netbox
+    - netbox-rq

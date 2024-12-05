@@ -1,0 +1,28 @@
+- name: setup postgres packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - postgresql
+    - libpq-dev
+    - python-psycopg2 # required by the following tasks
+
+- name: create a database for netbox
+  postgresql_db:
+    name: "{{ netbox_db_name }}"
+  become_user: postgres
+
+- name: create a user for netbox
+  postgresql_user:
+    name: "{{ netbox_db_user }}"
+    password: "{{ netbox_db_password }}"
+  become_user: postgres
+
+- name: provide the netbox user with full privileges on its database
+  postgresql_privs:
+    database: "{{ netbox_db_name }}"
+    privs: all
+    type: schema 
+    objs: public
+    role: "{{ netbox_db_user }}"
+  become_user: postgres

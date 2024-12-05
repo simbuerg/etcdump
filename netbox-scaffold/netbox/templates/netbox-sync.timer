@@ -1,0 +1,8 @@
+[Unit]
+Description=Hourly vCenter refresh
+
+[Timer]
+OnCalendar=hourly
+
+[Install]
+WantedBy=timers.target

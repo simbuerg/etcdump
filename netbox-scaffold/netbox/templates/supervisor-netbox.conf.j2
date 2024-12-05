@@ -1,0 +1,9 @@
+[program:netbox]
+command = {{ netbox_install_venv }}/bin/gunicorn -c {{ netbox_prefix }}/gunicorn_config.py netbox.wsgi
+directory = {{ netbox_prefix }}/netbox/
+user = {{ netbox_system_user }}
+
+[program:netbox-rqworker]
+command = {{ netbox_install_venv }}/bin/python3 {{ netbox_prefix }}/netbox/manage.py rqworker
+directory = {{ netbox_prefix }}/netbox/
+user = {{ netbox_system_user }}

@@ -1,0 +1,83 @@
+---
+netbox_app_fqdn: "{{ undefined | mandatory }}"
+netbox_prefix: /opt/netbox
+netbox_install_venv: "{{ netbox_prefix }}/venv"
+netbox_system_user: netbox
+
+netbox_admins: [
+  ["Test Admin", "test.admin@example.com"]
+]
+
+netbox_db_user: netbox
+netbox_db_name: netbox
+netbox_db_host: localhost
+netbox_db_port: 5432
+netbox_db_password: "{{ undefined | mandatory }}"
+netbox_secret_key: "{{ undefined | mandatory }}"
+
+netbox_url: https://github.com/netbox-community/netbox/archive/
+netbox_version: "{{ undefined | mandatory }}"
+netbox_release: "v{{ netbox_version }}.tar.gz"
+netbox_active_release: "netbox-{{ netbox_version }}"
+netbox_ldap_bind_dn: "{{ undefined | mandatory }}"
+netbox_ldap_group_dn: "{{ undefined | mandatory }}"
+netbox_ldap_active_group: "{{ undefined | mandatory }}"
+
+netbox_ldap_staff_group: "{{ undefined | mandatory }}"
+netbox_ldap_superuser_group: "{{ undefined | mandatory }}"
+netbox_ldap_user_search: "{{ undefined | mandatory }}"
+netbox_ldap_group_search: "{{ undefined | mandatory }}"
+netbox_ldap_proxy_pass: "{{ undefined | mandatory }}"
+
+netbox_https_dns_resolver: "{{ undefined | mandatory }}"
+netbox_cors_origin_whitelist: []
+# netbox_cors_origin_whitelist:
+#  - domaina.example.netbox
+#  - domainb.example.netbox
+netbox_email_settings: {}
+#  SERVER: 'mail.example.com'
+#  PORT: 25
+#  USERNAME: ''
+#  PASSWORD: ''
+#  TIMEOUT: 10
+#  FROM_EMAIL: netbox@mail.example.com
+
+
+netbox_custom_python:
+  - dulwich
+#  - pyaoscx==1.0.0
+  - django-auth-ldap
+  - gunicorn
+#  - netbox-acls
+#  - netbox-topology-views==4.0.0b1
+#  - netbox-floorplan-plugin
+#  - napalm==2.5.0
+#  - napalm-procurve
+#  - napalm-aruba-cx
+#  - napalm-arubaos-switch
+#  - netbox-napalm-plugin
+
+netbox_plugins:
+#  - name: netbox_topology_views
+#    config: {}
+#  - name: netbox_floorplan
+#    config: {}
+#  - name: "netbox_napalm_plugin"
+#    config: {
+#      "NAPALM_USERNAME": "{{ netbox_napalm_username }}",
+#      "NAPALM_PASSWORD": "{{ netbox_napalm_password }}"
+#    }
+
+netbox_sync_prefix: "/opt/netbox-sync"
+netbox_sync_version: "v1.4.1"
+netbox_sync_api_token: "{{ undefined | mandatory }}"
+netbox_sync_host: "{{ undefined | mandatory }}"
+netbox_sync_vcenter_user: "{{ undefined | mandatory }}"
+netbox_sync_vcenter_password: "{{ undefined | mandatory }}"
+netbox_sync_vcenter_fqdn: "{{ undefined | mandatory }}"
+
+vsphere_automation_sdk_prefix: "/opt/vsphere-automation-sdk"
+vsphere_automation_sdk_version: "v7.0.3.0"
+
+netbox_napalm_username: "{{ undefined | mandatory }}"
+netbox_napalm_password: "{{ undefined | mandatory }}"
