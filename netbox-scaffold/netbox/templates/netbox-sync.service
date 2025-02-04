@@ -1,7 +1,0 @@
-[Unit]
-Description=Synchronize VMware vCenter to NetBox
-
-[Service]
-User={{ netbox_system_user }}
-WorkingDirectory={{ netbox_sync_prefix }}
-ExecStart={{ netbox_sync_prefix }}/env/bin/python {{ netbox_sync_prefix }}/netbox-sync.py -c {{ netbox_sync_prefix }}/settings.ini
