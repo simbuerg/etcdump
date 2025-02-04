@@ -15,15 +15,36 @@ local string, os = string, os
 local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 local system_icon_dir = "/usr/share/icons/Numix-Circle/48/apps/"
 
+-- {{{ Random Wallpapers
+
+-- Get the list of files from a directory. Must be all images or folders and non-empty. 
+function scanDir(directory)
+  local i, fileList, popen = 0, {}, io.popen
+  for filename in popen([[find "]] ..directory.. [[" -type f]]):lines() do
+      i = i + 1
+      fileList[i] = filename
+  end
+  return fileList
+end
+
+
 local theme                                     = {}
 theme.default_dir                               = require("awful.util").get_themes_dir() .. "default"
 theme.icon_dir                                  = os.getenv("HOME") .. "/.config/awesome/themes/holo/icons"
-theme.wallpaper                                 = function(s)
-  if s.geometry.width >= s.geometry.height then
-    return os.getenv("HOME") .. "/Pictures/Wallpaper/Variety/24TKlHV.jpg"
-  end
-  return os.getenv("HOME") .. "/Pictures/nier2bvertical.png"
-end
+-- theme.wallpaper                                 = function(s)
+--   if s.geometry.width >= s.geometry.height then
+--     -- return os.getenv("HOME") .. "/Pictures/Wallpaper/Variety/24TKlHV.jpg"
+--     return os.getenv("HOME") .. "/Pictures/xalatath.png"
+--   end
+--   return os.getenv("HOME") .. "/Pictures/nier2bvertical.png"
+-- end
+
+-- Apply a random wallpaper on startup.
+theme.wallpaper = function(s)
+  wallpaperList = scanDir(os.getenv("HOME") .. "/Pictures/Wallpaper/")
+  return wallpaperList[math.random(1, #wallpaperList)]
+end 
+-- }}}
 
 theme.font                                      = "Fira Code Bold 10"
 theme.fg_normal                                 = "#FFFFFF"
