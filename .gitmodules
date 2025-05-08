@@ -25,3 +25,9 @@
 [submodule "awesome-bling/.config/awesome/bling"]
 	path = awesome-bling/.config/awesome/bling
 	url = https://github.com/Nooo37/bling.git
+[submodule "tmux/.tmux/plugins/extrakto"]
+	path = tmux/.tmux/plugins/extrakto
+	url = https://git::@github.com/laktak/extrakto
+[submodule "tmux/.tmux/plugins/treemux"]
+	path = tmux/.tmux/plugins/treemux
+	url = https://git::@github.com/kiyoon/treemux

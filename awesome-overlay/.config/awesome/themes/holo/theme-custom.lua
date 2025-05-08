@@ -46,7 +46,7 @@ theme.wallpaper = function(s)
 end 
 -- }}}
 
-theme.font                                      = "Fira Code Bold 10"
+theme.font                                      = "Overpass Bold 10"
 theme.fg_normal                                 = "#FFFFFF"
 theme.fg_focus                                  = "#0099CC"
 theme.bg_focus                                  = "#303030"
@@ -150,14 +150,14 @@ local blue   = "#80CCE6"
 local space3 = markup.font("Roboto 3", " ")
 
 -- Clock
-local mytextclock = wibox.widget.textclock(markup("#FFFFFF", space3 .. "%H:%M   " .. markup.font("Roboto 4", " ")))
+local mytextclock = wibox.widget.textclock(markup("#FFFFFF", space3 .. "%H:%M   " .. markup.font("Overpass 4", " ")))
 mytextclock.font = theme.font
 local clock_icon = wibox.widget.imagebox(theme.clock)
 local clockbg = wibox.container.background(mytextclock, theme.bg_focus, gears.shape.rectangle)
 local clockwidget = wibox.container.margin(clockbg, dpi(0), dpi(3), dpi(5), dpi(5))
 
 -- Calendar
-local mytextcalendar = wibox.widget.textclock(markup.fontfg(theme.font, "#FFFFFF", space3 .. "%d %b " .. markup.font("Fira Code 8", " ")))
+local mytextcalendar = wibox.widget.textclock(markup.fontfg(theme.font, "#FFFFFF", space3 .. "%d %b " .. markup.font("Overpass 8", " ")))
 local calendar_icon = wibox.widget.imagebox(theme.calendar)
 local calbg = wibox.container.background(mytextcalendar, theme.bg_focus, gears.shape.rectangle)
 local calendarwidget = wibox.container.margin(calbg, dpi(0), dpi(0), dpi(5), dpi(5))

@@ -1,8 +1,19 @@
 [[ $- != *i* ]] && return
 
-source ~/.znap/zsh-snap/znap.zsh
+eval "$(starship init zsh)"
 
-znap prompt sindresorhus/pure
+source ~/.znap/znap.zsh
+
+zstyle ':znap:pull:*' exclude \
+  todo \
+  dracula/waybar \
+  dracula/hyprland \
+  alacritty-theme \
+  paperless-ngx \
+  zsys
+
+# znap prompt BrandonRoehl/zsh-clean
+# znap prompt sindresorhus/pure
 
 znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-syntax-highlighting
@@ -80,18 +91,11 @@ function zshaddhistory() {
 linkto $HOME/.local
 linkto $HOME/git/go
 linkto $HOME/go
-linkto $HOME/opt/dmsw
 linkto $HOME/.node_modules/
 linkto $HOME/.yarn/
 
-# [ -n "$SSH_AUTH_SOCK" ] && gpgconf --create-socketdir
-# [ -n "$SSH_AUTH_SOCK" ] || gpgconf --launch gpg-agent
-gpgconf --launch gpg-agent
+[ -n "$SSH_AUTH_SOCK" ] && gpgconf --create-socketdir
+[ -n "$SSH_AUTH_SOCK" ] || gpgconf --launch gpg-agent
+#gpgconf --launch gpg-agent
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-tmux-window-name() {
-	($TMUX_PLUGIN_MANAGER_PATH/tmux-window-name/scripts/rename_session_windows.py &)
-}
-
-add-zsh-hook chpwd tmux-window-name

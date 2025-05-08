@@ -2,22 +2,9 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'edkolev/tmuxline.vim'
 Plug 'morhetz/gruvbox'
-
-" Plug 'Valloric/YouCompleteMe', { 'for' : ['go', 'c', 'cpp', 'python'], 'do' : './install.py --go-completer --clangd-completer' }
-"autocmd! User YouCompleteMe call youcompleteme#Enable()
-
 Plug 'godlygeek/tabular'
-" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-" Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
-
-" Plug 'vimwiki/vimwiki'
-" Plug 'tbabej/taskwiki'
-Plug 'powerman/vim-plugin-AnsiEsc'
-" Plug 'farseer90718/vim-taskwarrior'
-
-" Plug 'tweekmonster/braceless.vim', { 'for' : ['python'] }
+" Plug 'powerman/vim-plugin-AnsiEsc'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-surround'
@@ -29,14 +16,11 @@ Plug 'dense-analysis/ale'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build', 'branch': 'main' }
+" Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build', 'branch': 'main' }
 Plug 'iamcco/coc-diagnostic', {'do': 'yarn install --frozen-lockfile && yarn build', 'branch': 'master'}
 
-" Plug 'vim-test/vim-test'
-" Plug 'petobens/poet-v'
 Plug 'intrntbrn/awesomewm-vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
-" Plug 'numirias/semshi', { 'do': 'UpdateRemotePlugins' }
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call plug#end()
@@ -74,12 +58,11 @@ if exists('+termguicolors')
   set termguicolors
 endif
 
-colorscheme gruvbox
-let g:airline_theme='gruvbox'
+colorscheme pencil
+let g:airline_theme='pencil'
 
-" let g:pencil_terminal_italics = 1
-" let g:pencil_gutter_color = 1
-" let g:airline_theme = 'pencil'
+let g:pencil_terminal_italics = 1
+let g:pencil_gutter_color = 1
 set background=dark
 
 " Highlight syntax in programming languages

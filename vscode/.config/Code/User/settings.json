@@ -28,7 +28,7 @@
     "git.autofetch": true,
     "git.confirmSync": false,
     "terminal.integrated.rendererType": "dom",
-    "workbench.colorTheme": "Panda Syntax",
+    "workbench.colorTheme": "Monokai Night",
     "workbench.colorCustomizations": {
         "settings.modifiedItemForeground": "#FF7042",
         "tab.unfocusedActiveBorder": "#fff0",
@@ -282,5 +282,26 @@
         "vscode-kubernetes.minikube-path-linux": "/home/simbuerg/.vs-kubernetes/tools/minikube/linux-amd64/minikube"
     },
     "cmake.configureOnOpen": false,
-    "cmake.showOptionsMovedNotification": false
+    "cmake.showOptionsMovedNotification": false,
+    "workbench.sideBar.location": "right",
+    "clangd.detectExtensionConflicts": false,
+    "cmake.pinnedCommands": [
+        "workbench.action.tasks.configureTaskRunner",
+        "workbench.action.tasks.runTask"
+    ],
+    "[jinja]": {},
+    "explorer.fileNesting.patterns": {
+        "*.ts": "${capture}.js",
+        "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+        "*.jsx": "${capture}.js",
+        "*.tsx": "${capture}.ts",
+        "tsconfig.json": "tsconfig.*.json",
+        "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
+        "*.sqlite": "${capture}.${extname}-*",
+        "*.db": "${capture}.${extname}-*",
+        "*.sqlite3": "${capture}.${extname}-*",
+        "*.db3": "${capture}.${extname}-*",
+        "*.sdb": "${capture}.${extname}-*",
+        "*.s3db": "${capture}.${extname}-*"
+    }
 }

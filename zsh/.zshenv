@@ -1,12 +1,8 @@
 export EDITOR=nvim
-#export FZF_COMPLETION_OPTS="--preview 'more 100 {}'"
-#
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
-#export GREN_GITHUB_TOKEN=d306fa9d7304ad0094eade0128998e1728dddafb
-export PROMPT_GEOMETRY_EXEC_TIME=true
-#export QT_QPA_PLATFORMTHEME=qt5ct
+# export PROMPT_GEOMETRY_EXEC_TIME=true
 export GOPATH=$HOME/git/go
 export FZF_DEFAULT_COMMAND='ag --hidden --follow --ignore .git -g ""'
 
@@ -37,7 +33,7 @@ alias tn="tmux new-session -t"
 alias ll="ls -licsah --group-directories-first --color=auto"
 
 alias ll="eza --group-directories-first"
-alias ls="eza -l --group-directories-first"
-alias la="eza -a --group-directories-first"
-alias lal="eza -al --group-directories-first"
+alias ls="eza -l --group-directories-first -t modified --icons=auto"
+alias la="eza -a --group-directories-first -t modified --icons=auto"
+alias lal="eza -al --group-directories-first -t modified --icons=auto"
 alias vim="nvim"
