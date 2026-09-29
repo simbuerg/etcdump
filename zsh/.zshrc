@@ -5,21 +5,16 @@ eval "$(starship init zsh)"
 source ~/.znap/znap.zsh
 
 zstyle ':znap:pull:*' exclude \
-  todo \
-  dracula/waybar \
-  dracula/hyprland \
   alacritty-theme \
   paperless-ngx \
   zsys
-
-# znap prompt BrandonRoehl/zsh-clean
-# znap prompt sindresorhus/pure
 
 znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-syntax-highlighting
 znap source willghatch/zsh-saneopt
 
 znap fpath _kubectl 'kubectl completion zsh'
+znap fpath _containerlab 'containerlab completion zsh'
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#414141"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)

@@ -55,7 +55,7 @@ end
 -- run_once({ "nm-applet", "--sm-disable", "&" })
 run_once({ "/usr/lib/polkit-kde-agent-1", "&" })
 run_once({ "/usr/lib/polkit-kde-authentication-agent-1", "&" })
--- run_once({ "/usr/bin/picom", "&" })
+run_once({ "/usr/bin/picom", "&" })
 -- }}}
 
 -- {{{ set env vars
@@ -90,7 +90,7 @@ local themes = {
 local chosen_theme = "holo"
 local modkey       = "Mod4"
 local altkey       = "Mod1"
-local terminal     = "alacritty"
+local terminal     = "ghostty"
 local vi_focus     = false -- vi-like client focus - https://github.com/lcpz/awesome-copycats/issues/275
 local cycle_prev   = true -- cycle trough all previous client or just the first -- https://github.com/lcpz/awesome-copycats/issues/274
 local editor       = os.getenv("EDITOR") or "vim"

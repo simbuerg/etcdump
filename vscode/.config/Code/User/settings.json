@@ -303,5 +303,8 @@
         "*.db3": "${capture}.${extname}-*",
         "*.sdb": "${capture}.${extname}-*",
         "*.s3db": "${capture}.${extname}-*"
-    }
+    },
+    "http.systemCertificatesNode": true,
+    "geminicodeassist.project": "dependable-fold-jnt9s",
+    "chat.disableAIFeatures": true
 }
